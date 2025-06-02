@@ -2,27 +2,36 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>CYBERPIXEL - Mohan</title>
+  
+  <!-- Font Awesome CDN for icons -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  />
+
   <style>
     * {
-      margin: 0; padding: 0; box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
-    html {
-      scroll-behavior: smooth;
+    html, body {
+      width: 100%;
+      height: 100%;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      transition: background 0.5s, color 0.5s;
+      overflow: hidden;
     }
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background-color: #fdf6e3;
       color: #333;
-      overflow-x: hidden;
-      transition: background 0.5s ease, color 0.5s ease;
     }
     body.dark-mode {
       background-color: #121212;
       color: #e0e0e0;
     }
-
     .navbar {
       position: fixed;
       top: 0;
@@ -33,205 +42,157 @@
       justify-content: space-between;
       align-items: center;
       z-index: 1000;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.5);
     }
     .navbar .logo {
       color: #00bcd4;
       font-weight: bold;
       font-size: 24px;
     }
-    .navbar .nav-links a {
-      color: white;
-      margin-left: 25px;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 16px;
-      opacity: 0.7;
-      transition: opacity 0.3s ease;
-    }
-    .navbar .nav-links a:hover,
-    .navbar .nav-links a.active {
-      opacity: 1;
-      border-bottom: 2px solid #00bcd4;
-      padding-bottom: 4px;
-    }
     .theme-toggle {
       background: linear-gradient(135deg, #00bcd4, #00796b);
       border: none;
-      width: 44px;
-      height: 44px;
-      font-size: 20px;
-      color: #fff;
+      width: 40px;
+      height: 40px;
+      font-size: 18px;
+      color: white;
       border-radius: 50%;
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-      margin-left: 15px;
     }
 
-    section {
+    .section {
+      display: none;
+      width: 100%;
       height: 100vh;
-      padding: 100px 30px 40px 30px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
+      padding: 100px 20px 60px;
       text-align: center;
-      transition: background 0.5s ease, color 0.5s ease;
+      transition: opacity 0.5s;
     }
-    #home {
-      background: linear-gradient(135deg, #00bcd4, #00796b);
-      color: white;
+    .section.active {
+      display: block;
     }
-    body.dark-mode #home {
-      background: linear-gradient(135deg, #004d40, #002f2f);
-    }
-
-    #home h1 {
-      font-size: 48px;
-      margin-bottom: 10px;
-    }
-    #home p {
-      font-size: 20px;
-      font-weight: 500;
-    }
-    #home .logo-text {
-      font-size: 28px;
-      font-weight: 700;
-      margin-bottom: 40px;
-      letter-spacing: 3px;
-    }
-    #home img {
-      width: 160px;
-      height: 160px;
-      border-radius: 50%;
-      object-fit: cover;
-      margin-bottom: 20px;
-      box-shadow: 0 6px 15px rgba(0,0,0,0.4);
-      border: 4px solid white;
-    }
-
-    #about, #work, #contact {
-      background-color: #f0f0f0;
-      color: #222;
-    }
-    body.dark-mode #about,
-    body.dark-mode #work,
-    body.dark-mode #contact {
-      background-color: #1a1a1a;
-      color: #e0e0e0;
-    }
-
-    #about h2, #work h2, #contact h2 {
-      font-size: 36px;
+    .section h2 {
+      font-size: 32px;
       margin-bottom: 20px;
     }
-    #about p, #contact p {
+    .section p, .section ul {
       font-size: 18px;
+      max-width: 600px;
+      margin: auto;
       line-height: 1.6;
     }
-    #work ul {
-      list-style: none;
-      font-size: 18px;
-      text-align: left;
-      padding-left: 20px;
-      max-width: 500px;
-      margin: auto;
-    }
-    #work ul li {
-      margin-bottom: 15px;
-      padding-left: 12px;
-      position: relative;
-    }
-    #work ul li::before {
-      content: "✔";
-      position: absolute;
-      left: 0;
-      color: #00e676;
-      font-weight: bold;
-    }
-
-    button.email-btn, .insta-btn {
-      border: none;
-      padding: 14px 30px;
-      font-size: 18px;
-      border-radius: 30px;
-      cursor: pointer;
-      font-weight: 600;
-      margin: 0 10px;
-      transition: all 0.3s ease;
-      user-select: none;
-      color: white;
+    .section img {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      margin: 20px 0;
+      object-fit: cover;
+      border: 4px solid white;
       box-shadow: 0 4px 12px rgba(0,0,0,0.3);
     }
-    button.email-btn {
-      background: linear-gradient(135deg, #2196F3, #0D47A1);
+    ul {
+      list-style: none;
+      padding: 0;
     }
-    .insta-btn {
-      background: linear-gradient(135deg, #e1306c, #fd1d1d, #f56040);
+    li::before {
+      content: "✔ ";
+      color: #00e676;
+    }
+    .controls {
+      position: fixed;
+      bottom: 20px;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+    .controls button {
+      padding: 12px 24px;
+      border: none;
+      background: #00bcd4;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 30px;
+      cursor: pointer;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.3);
+    }
+    .controls button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+
+    /* Contact Buttons Stylish & Bigger */
+    .contact-buttons {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      flex-wrap: wrap;
+    }
+
+    .contact-buttons button {
+      background: linear-gradient(135deg, #00bcd4, #00796b);
+      border: none;
+      color: white;
+      font-size: 20px;
+      font-weight: 600;
+      padding: 15px 40px;
+      border-radius: 40px;
+      cursor: pointer;
+      box-shadow: 0 5px 15px rgba(0, 188, 212, 0.6);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    .contact-buttons button:hover {
+      background: linear-gradient(135deg, #00796b, #004d40);
+      transform: scale(1.05);
+    }
+
+    .contact-buttons i {
+      font-size: 24px;
     }
 
     @media (max-width: 600px) {
-      .navbar {
-        flex-direction: column;
-        gap: 10px;
+      .section h2 {
+        font-size: 26px;
       }
-      .navbar .nav-links {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-      }
-      section {
-        padding: 100px 15px 40px 15px;
-      }
-      #home h1 {
-        font-size: 36px;
-      }
-      #about h2, #work h2, #contact h2 {
-        font-size: 28px;
-      }
-      #home .logo-text {
-        font-size: 22px;
-      }
-      #home p {
+      .section p, ul {
         font-size: 16px;
+      }
+      .contact-buttons button {
+        padding: 12px 30px;
+        font-size: 18px;
+      }
+      .contact-buttons i {
+        font-size: 20px;
       }
     }
   </style>
 </head>
 <body>
 
-  <!-- Navbar -->
   <div class="navbar">
     <div class="logo">CYBERPIXEL</div>
-    <div class="nav-links">
-      <a href="#home" class="active">Home</a>
-      <a href="#about">About Me</a>
-      <a href="#work">My Work</a>
-      <a href="#contact">Contact</a>
-    </div>
-    <button class="theme-toggle" id="themeToggle" onclick="toggleDarkMode()">🌙</button>
+    <button class="theme-toggle" onclick="toggleDarkMode()">🌙</button>
   </div>
 
-  <!-- Home -->
-  <section id="home">
-    <div class="logo-text">CYBERPIXEL</div>
-    <img src="IMG_20250602_120057%20(1).jpg" alt="Mohan" />
-    <h1>Hello, I'm MOHAN</h1>
+  <div id="home" class="section active">
+    <h2>Welcome to CYBERPIXEL</h2>
+    <img src="IMG_20250602_120057 (1).jpg" alt="Mohan" />
+    <h2>Hello, I'm MOHAN</h2>
     <p>Founder of CYBERPIXEL — Developer & Learner</p>
-  </section>
+  </div>
 
-  <!-- About -->
-  <section id="about">
+  <div id="about" class="section">
     <h2>About Me</h2>
-    <p>I am passionate about cybersecurity, ethical hacking, and full-stack development.  
+    <p>I am passionate about cybersecurity, ethical hacking, and full-stack development.
     My goal is to build innovative and secure digital solutions to help individuals and businesses.</p>
-  </section>
+  </div>
 
-  <!-- Work -->
-  <section id="work">
+  <div id="work" class="section">
     <h2>My Work</h2>
     <ul>
       <li>Full-Stack Web Development</li>
@@ -240,26 +201,59 @@
       <li>Responsive Website Design</li>
       <li>Freelance Project Work</li>
     </ul>
-  </section>
+  </div>
 
-  <!-- Contact -->
-  <section id="contact">
+  <div id="contact" class="section">
     <h2>Contact</h2>
     <p>Email: parmarmohansingh26@gmail.com</p>
-    <div>
-      <button class="email-btn" onclick="window.location.href='mailto:parmarmohansingh26@gmail.com'">📧</button>
-      <button class="insta-btn" onclick="window.open('https://instagram.com/ur.mohan_', '_blank')">📸</button>
+    <div class="contact-buttons">
+      <button onclick="window.location.href='mailto:parmarmohansingh26@gmail.com'">
+        <i class="fas fa-envelope"></i> Email Me
+      </button>
+      <button onclick="window.open('https://instagram.com/ur.mohan_', '_blank')">
+        <i class="fab fa-instagram"></i> Instagram
+      </button>
     </div>
-  </section>
+  </div>
 
-  <!-- JavaScript for Dark Mode -->
+  <div class="controls">
+    <button id="prevBtn" onclick="changeSection(-1)" disabled>⬅ Back</button>
+    <button id="nextBtn" onclick="changeSection(1)">Next ➡</button>
+  </div>
+
   <script>
-    function toggleDarkMode() {
-      const body = document.body;
-      const btn = document.getElementById('themeToggle');
-      body.classList.toggle('dark-mode');
-      btn.textContent = body.classList.contains('dark-mode') ? '☀️' : '🌙';
+    let current = 0;
+    const sections = document.querySelectorAll('.section');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+
+    function updateView() {
+      sections.forEach((sec, index) => {
+        sec.classList.toggle('active', index === current);
+      });
+      prevBtn.disabled = current === 0;
+      nextBtn.disabled = current === sections.length - 1;
     }
+
+    function changeSection(step) {
+      if ((current + step >= 0) && (current + step < sections.length)) {
+        current += step;
+        updateView();
+      }
+    }
+
+    function toggleDarkMode() {
+      document.body.classList.toggle('dark-mode');
+      document.querySelector('.theme-toggle').textContent = 
+        document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
+    }
+
+    // Optional: Arrow key navigation
+    document.addEventListener('keydown', (e) => {
+      if (e.key === "ArrowRight") changeSection(1);
+      if (e.key === "ArrowLeft") changeSection(-1);
+    });
   </script>
+
 </body>
 </html>
