@@ -1,31 +1,60 @@
-<!DOCTYPE html><html lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>CYBERPIXEL - Mohan</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
   <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
   <style>
+    /* Reset */
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
+
     html, body {
       width: 100%;
       height: 100%;
       font-family: 'Poppins', sans-serif;
-      transition: background 0.5s, color 0.5s;
       overflow: hidden;
-    }
-    body {
-      background-color: #fdf6e3;
+      transition: background 0.5s, color 0.5s;
+      background: #fdf6e3;
       color: #333;
+      position: relative;
     }
     body.dark-mode {
-      background-color: #121212;
+      background: #121212;
       color: #e0e0e0;
     }
+
+    /* Dynamic animated background */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(270deg, #00bcd4, #00796b, #00e5ff, #00bcd4);
+      background-size: 800% 800%;
+      animation: backgroundShift 30s ease infinite;
+      z-index: -1;
+      opacity: 0.15;
+      transition: opacity 0.5s;
+      animation-play-state: paused;
+    }
+    body.page-switching::before {
+      opacity: 0.4;
+      animation-play-state: running;
+    }
+
+    @keyframes backgroundShift {
+      0% {background-position: 0% 50%;}
+      50% {background-position: 100% 50%;}
+      100% {background-position: 0% 50%;}
+    }
+
+    /* Navbar */
     .navbar {
       position: fixed;
       top: 0;
@@ -52,36 +81,61 @@
       color: white;
       border-radius: 50%;
       cursor: pointer;
+      transition: background 0.3s;
     }
+    .theme-toggle:hover {
+      background: linear-gradient(135deg, #00796b, #00bcd4);
+    }
+
+    /* Sections */
     .section {
       display: none;
       width: 100%;
       height: 100vh;
-      padding: 100px 20px 60px;
-      text-align: center;
-      transition: opacity 0.5s;
+      padding: 120px 20px 60px;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      color: inherit;
     }
     .section.active {
       display: block;
+      opacity: 1;
+      transform: translateY(0);
     }
+
+    /* Section title - horizontally center & vertically near top */
     .section h2 {
       font-size: 32px;
-      margin-bottom: 20px;
       font-family: 'Orbitron', sans-serif;
       color: #00bcd4;
       text-shadow: 1px 1px 2px rgba(0,255,255,0.4);
+      text-align: center;
+      margin-bottom: 25px;
+      position: relative;
+      top: -20px;
     }
-    .section p, .section ul {
+
+    /* Paragraph and list styling */
+    .section p,
+    .section ul {
       font-size: 18px;
-      max-width: 600px;
-      margin: auto;
+      max-width: 650px;
+      margin: 0 auto;
       line-height: 1.6;
+      text-align: center;
+      color: inherit;
     }
+
+    /* Image styling */
     .section img {
       width: 160px;
       height: 160px;
       border-radius: 50%;
-      margin: 20px 0;
+      margin: 20px auto;
+      display: block;
       object-fit: cover;
       border: 5px solid transparent;
       background: linear-gradient(#121212, #121212) padding-box,
@@ -99,6 +153,8 @@
         transform: scale(1.03);
       }
     }
+
+    /* Lists */
     ul {
       list-style: none;
       padding: 0;
@@ -107,6 +163,8 @@
       content: "✔ ";
       color: #00e676;
     }
+
+    /* Controls buttons */
     .controls {
       position: fixed;
       bottom: 20px;
@@ -114,6 +172,7 @@
       display: flex;
       justify-content: center;
       gap: 20px;
+      z-index: 1001;
     }
     .controls button {
       padding: 12px 24px;
@@ -125,9 +184,22 @@
       border-radius: 30px;
       cursor: pointer;
       box-shadow: 0 3px 8px rgba(0,0,0,0.3);
+      transition: background 0.3s;
+    }
+    .controls button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+    .controls button:hover:not(:disabled) {
+      background: #0097a7;
+    }
+
+    /* Contact buttons */
+    .contact-buttons {
+      margin-top: 15px;
     }
     .contact-buttons button {
-      margin: 10px;
+      margin: 10px 15px;
       padding: 12px 24px;
       font-size: 18px;
       border-radius: 10px;
@@ -140,102 +212,393 @@
     .contact-buttons button:hover {
       transform: scale(1.05);
     }
+
+    /* Accordion style for Work section */
     .accordion {
-      margin-top: 20px;
-    }
-    .accordion-item {
-      margin-bottom: 10px;
-      border-radius: 10px;
-      overflow: hidden;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-width: 650px;
+      margin: 0 auto;
+      text-align: left;
+      color: inherit;
     }
     .accordion-header {
-      background: linear-gradient(135deg, #00bcd4, #00796b);
-      color: white;
-      font-size: 18px;
-      padding: 15px;
       width: 100%;
+      background-color: #00bcd4;
+      color: white;
+      font-weight: 600;
+      padding: 12px 16px;
       border: none;
-      text-align: left;
       cursor: pointer;
+      border-radius: 10px;
+      font-size: 18px;
+      transition: background 0.3s;
+      text-align: left;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .accordion-header:hover {
+      background-color: #0097a7;
+    }
+    .accordion-header::after {
+      content: '+';
+      font-weight: bold;
+      font-size: 22px;
+      transition: transform 0.3s ease;
+    }
+    .accordion-item.active .accordion-header::after {
+      content: '−';
+      transform: rotate(180deg);
     }
     .accordion-body {
-      display: none;
-      background: #f0f0f0;
-      padding: 15px;
-      color: #333;
-    }
-    body.dark-mode .accordion-body {
-      background: #1e1e1e;
-      color: #e0e0e0;
+      max-height: 0;
+      overflow: hidden;
+      background-color: rgba(0, 188, 212, 0.1);
+      padding: 0 16px;
+      border-radius: 0 0 10px 10px;
+      transition: max-height 0.4s ease, padding 0.3s ease;
+      font-size: 16px;
+      color: inherit;
     }
     .accordion-item.active .accordion-body {
-      display: block;
+      max-height: 200px;
+      padding: 10px 16px;
     }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      .section h2 {
+        font-size: 26px;
+        top: -10px;
+      }
+      .section p, ul, .accordion {
+        font-size: 16px;
+        max-width: 90%;
+      }
+      .accordion-header {
+        font-size: 16px;
+      }
+    }
+
   </style>
 </head>
 <body>
+
   <div class="navbar">
     <div class="logo">CYBERPIXEL</div>
     <button class="theme-toggle" onclick="toggleDarkMode()">🌙</button>
-  </div>  <div id="home" class="section active">
-    <h2>Welcome to CYBERPIXEL</h2>
-    <img src="IMG_20250602_120057 (1).jpg" alt="Mohan" />
-    <h2>Hey, I'm MOHAN</h2>
-    <p>Founder of CYBERPIXEL — Developer, Hacker & Learner</p>
-  </div>  <div id="about" class="section">
-    <h2>🚀 My Mission</h2>
-    <p>I am passionate about cybersecurity, ethical hacking, and full-stack development. My goal is to build innovative and secure digital solutions.</p>
-  </div>  <div id="work" class="section">
-    <h2>🛠️ My Services</h2>
-    <div class="accordion">
-      <div class="accordion-item"><button class="accordion-header">💻 Full-Stack Web Development</button><div class="accordion-body">Responsive websites using Python, HTML, CSS, JS, Flask/Django, etc.</div></div>
-      <div class="accordion-item"><button class="accordion-header">🔐 Ethical Hacking & Cybersecurity</button><div class="accordion-body">VAPT, bug bounty, secure network implementation.</div></div>
-      <div class="accordion-item"><button class="accordion-header">📱 Android App Development</button><div class="accordion-body">Apps using Flutter, React Native, Kivy, Pydroid.</div></div>
-      <div class="accordion-item"><button class="accordion-header">🎮 Game Development</button><div class="accordion-body">2D/3D games using Unity, Unreal Engine, or Pygame.</div></div>
-      <div class="accordion-item"><button class="accordion-header">🧠 AI/ML Projects</button><div class="accordion-body">ML models with Python, TensorFlow, OpenCV projects.</div></div>
-      <div class="accordion-item"><button class="accordion-header">🧑‍💼 Freelancing / Consulting</button><div class="accordion-body">Custom digital solutions for clients & startups.</div></div>
-    </div>
-  </div>  <div id="contact" class="section">
-    <h2>📞 Contact Me</h2>
-    <p>Email: parmarmohansingh26@gmail.com</p>
-    <div class="contact-buttons">
-      <button onclick="window.location.href='mailto:parmarmohansingh26@gmail.com'">📧 Email</button>
-      <button onclick="window.open('https://instagram.com/ur.mohan_', '_blank')">📷 Instagram</button>
-    </div>
-  </div>  <div class="controls">
-    <button id="prevBtn" onclick="changeSection(-1)" disabled>⬅ Back</button>
-    <button id="nextBtn" onclick="changeSection(1)">Next ➡</button>
-  </div>  <script>
-    let current = 0;
-    const sections = document.querySelectorAll('.section');
-    const prevBtn = document.getElementById('prevBtn');
-    const nextBtn = document.getElementById('nextBtn');
+  </div>
 
-    function updateView() {
-      sections.forEach((sec, index) => sec.classList.toggle('active', index === current));
-      prevBtn.disabled = current === 0;
-      nextBtn.disabled = current === sections.length - 1;
+  <!-- Sections -->
+
+ <!-- Home Section -->
+<div id="home" class="section active">
+  <h2 class="fade-in">WELCOME To <span style="color:#00bcd4;">CYBERPIXEL</span></h2>
+  <img src="IMG_20250602_120057 (1).jpg" alt="Mohan" />
+  <h3 class="slide-in">
+    Hello, I'm <span style="color:#00bcd4;">Mohan</span><br />
+    <span class="typed-text"></span><span class="cursor">|</span>
+  </h3>
+
+  <p class="fade-in">Founder of CYBERPIXEL — Developer, Hacker & Learner</p>
+</div>
+
+<!-- Typing Animation Script -->
+<script>
+  const texts = ["Phone", "Tools", "Technology", "Python Dev", "Security Expert"];
+  let count = 0;
+  let index = 0;
+  let currentText = "";
+  let letter = "";
+
+  (function type() {
+    if (count === texts.length) count = 0;
+    currentText = texts[count];
+    letter = currentText.slice(0, ++index);
+
+    document.querySelector(".typed-text").textContent = letter;
+
+    if (letter.length === currentText.length) {
+      count++;
+      index = 0;
+      setTimeout(type, 1000); // pause after full word
+    } else {
+      setTimeout(type, 100);
     }
-    function changeSection(step) {
-      if ((current + step >= 0) && (current + step < sections.length)) {
-        current += step;
-        updateView();
-      }
-    }
+  })();
+</script>
+
+<!-- Style -->
+<style>
+  .section {
+    text-align: center;
+    padding: 80px 20px;
+  }
+
+  .cursor {
+    display: inline-block;
+    background-color: #00bcd4;
+    width: 3px;
+    animation: blink 0.7s infinite;
+  }
+
+  @keyframes blink {
+    0%, 50%, 100% { opacity: 1; }
+    25%, 75% { opacity: 0; }
+  }
+
+  .fade-in {
+    animation: fadeIn 2s ease;
+  }
+
+  .slide-in {
+    animation: slideIn 1.5s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+  <div id="about" class="section">
+    <h2>🚀 My Mission</h2>
+    <p>I am passionate about cybersecurity, ethical hacking, and full-stack development.  
+      My goal is to build innovative and secure digital solutions to help individuals and businesses.</p>
+  </div>
+
+  <div id="work" class="section">
+    <h2>🛠️ What I Do</h2>
+    <div class="accordion">
+      <div class="accordion-item">
+        <button class="accordion-header">Full-Stack Web Development</button>
+        <div class="accordion-body">
+          <p>Responsive, secure, and scalable websites using HTML, CSS, JS, Python, and more.</p>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <button class="accordion-header">Ethical Hacking & Cybersecurity</button>
+        <div class="accordion-body">
+          <p>Protecting systems and educating clients through penetration testing and audits.</p>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <button class="accordion-header">Mobile App Development</button>
+        <div class="accordion-body">
+          <p>Creating Android apps with modern UI/UX using tools like Flutter and React Native.</p>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <button class="accordion-header">Responsive Website Design</button>
+        <div class="accordion-body">
+          <p>Beautiful, mobile-friendly designs optimized for performance and accessibility.</p>
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <button class="accordion-header">Freelance Project Work</button>
+        <div class="accordion-body">
+          <p>Available for freelance projects, consulting, and private development gigs.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!-- Contact Section -->
+  </div>
+</section>
+<section class="contact-section">
+  <h2 class="section-title">☎️Contact Me</h2>
+  <div class="contact-content">
+    <!-- Contact info and form content -->
+    </div>
+</section>
+<div id="contact" class="section contact-section">
+    <!-- Left: Info -->
+    <div class="contact-info slide-in-bottom">
+      <p><strong>Email:</strong> <a href="mailto:parmarmohansingh26@gmail.com">parmarmohansingh26@gmail.com</a></p>
+      <p><strong>Instagram:</strong> <a href="https://instagram.com/ur.mohan_" target="_blank">@ur.mohan_</a></p>
+      
+    </div>
+
+    <!-- Right: Contact Form -->
+    <form class="contact-form slide-in-bottom">
+      <input type="text" placeholder="Your Name" required />
+      <input type="email" placeholder="Your Email" required />
+      <textarea placeholder="Your Message/Suggestion" required></textarea>
+      <button type="submit">Send Message </button>
+      
+    </form>
+  </div>
+</div>
+
+<!-- Style -->
+<style>
+.contact-section {
+  padding: 80px 20px 60px;
+  background: #0d0d0d;
+  color: #fff;
+  text-align: center;
+  overflow: visible; /
+}
+
+.section-title {
+  font-size: 2.5em; 
+  color: #00bcd4;
+  margin-bottom: 30px;
+  font-weight: 700;
+  font-family: 'Orbitron', sans-serif;
+}
+
+.contact-content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 50px;
+  max-width: 800px;
+  margin: auto;
+}
+
+  .contact-info, .contact-form {
+    flex: 1 1 300px;
+    text-align: left;
+  }
+
+  .contact-info a {
+    color: #00bcd4;
+    text-decoration: none;
+  }
+
+  .contact-form input,
+  .contact-form textarea {
+    width: 100%;
+    margin-bottom: 15px;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    background: #222;
+    color: #fff;
+    font-size: 1em;
+  }
+
+  .contact-form button {
+    background: #00bcd4;
+    color: #000;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s ease;
+  }
+
+  .contact-form button:hover {
+    background: #0097a7;
+  }
+
+  /* Animations */
+  .slide-in-bottom {
+    animation: slideInBottom 1s ease;
+  }
+
+  @keyframes slideInBottom {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+    <!-- Right: Contact Form -->
+    <form class="contact-form slide-in-bottom">
+      <input type="text" placeholder="Your Name" required />
+      <input type="email" placeholder="Your Email" required />
+      <textarea placeholder="Your Message" required></textarea>
+      <button type="submit">Send Message</button>
+    </form>
+  </div>
+</div>
+
+  <!-- Navigation Controls -->
+  <div class="controls">
+    <button id="prevBtn" title="Previous Section">&larr; Prev</button>
+    <button id="nextBtn" title="Next Section">Next &rarr;</button>
+  </div>
+
+  <script>
+    // Dark Mode Toggle
     function toggleDarkMode() {
       document.body.classList.toggle('dark-mode');
-      document.querySelector('.theme-toggle').textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
     }
-    document.addEventListener('keydown', (e) => {
-      if (e.key === "ArrowRight") changeSection(1);
-      if (e.key === "ArrowLeft") changeSection(-1);
+
+    // Sections Array & Index
+    const sections = Array.from(document.querySelectorAll('.section'));
+    let currentIndex = 0;
+
+    // Show section by index
+    function showSection(index) {
+      if(index < 0 || index >= sections.length) return;
+      // Start background animation on page switch
+      document.body.classList.add('page-switching');
+
+      // Remove active from all sections
+      sections.forEach(sec => sec.classList.remove('active'));
+      // Add active to current section
+      sections[index].classList.add('active');
+
+      // Update buttons disabled state
+      document.getElementById('prevBtn').disabled = (index === 0);
+      document.getElementById('nextBtn').disabled = (index === sections.length - 1);
+
+      // Update currentIndex
+      currentIndex = index;
+
+      // After animation time, remove background animation
+      setTimeout(() => {
+        document.body.classList.remove('page-switching');
+      }, 1000);
+    }
+
+    // Next and Prev button event listeners
+    document.getElementById('prevBtn').addEventListener('click', () => {
+      showSection(currentIndex - 1);
     });
-    document.querySelectorAll('.accordion-header').forEach(header => {
+    document.getElementById('nextBtn').addEventListener('click', () => {
+      showSection(currentIndex + 1);
+    });
+
+    // Keyboard arrow navigation
+    window.addEventListener('keydown', (e) => {
+      if(e.key === 'ArrowRight') {
+        if(currentIndex < sections.length - 1) showSection(currentIndex + 1);
+      }
+      else if(e.key === 'ArrowLeft') {
+        if(currentIndex > 0) showSection(currentIndex - 1);
+      }
+    });
+
+    // Accordion functionality for Work section
+    const accordions = document.querySelectorAll('.accordion-header');
+    accordions.forEach(header => {
       header.addEventListener('click', () => {
         const item = header.parentElement;
+        // Close other open accordion items
+        document.querySelectorAll('.accordion-item.active').forEach(openItem => {
+          if(openItem !== item) {
+            openItem.classList.remove('active');
+          }
+        });
+        // Toggle current accordion item
         item.classList.toggle('active');
       });
     });
-  </script></body>
+  </script>
+
+</body>
 </html>
