@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -54,7 +53,6 @@
       border-radius: 50%;
       cursor: pointer;
     }
-
     .section {
       display: none;
       width: 100%;
@@ -79,7 +77,6 @@
       margin: auto;
       line-height: 1.6;
     }
-
     .section img {
       width: 160px;
       height: 160px;
@@ -102,7 +99,6 @@
         transform: scale(1.03);
       }
     }
-
     ul {
       list-style: none;
       padding: 0;
@@ -111,7 +107,6 @@
       content: "✔ ";
       color: #00e676;
     }
-
     .controls {
       position: fixed;
       bottom: 20px;
@@ -131,11 +126,6 @@
       cursor: pointer;
       box-shadow: 0 3px 8px rgba(0,0,0,0.3);
     }
-    .controls button:disabled {
-      background: #ccc;
-      cursor: not-allowed;
-    }
-
     .contact-buttons button {
       margin: 10px;
       padding: 12px 24px;
@@ -147,102 +137,105 @@
       cursor: pointer;
       transition: transform 0.2s;
     }
-
     .contact-buttons button:hover {
       transform: scale(1.05);
     }
-
-    @media (max-width: 600px) {
-      .section h2 {
-        font-size: 26px;
-      }
-      .section p, ul {
-        font-size: 16px;
-      }
+    .accordion {
+      margin-top: 20px;
+    }
+    .accordion-item {
+      margin-bottom: 10px;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    }
+    .accordion-header {
+      background: linear-gradient(135deg, #00bcd4, #00796b);
+      color: white;
+      font-size: 18px;
+      padding: 15px;
+      width: 100%;
+      border: none;
+      text-align: left;
+      cursor: pointer;
+    }
+    .accordion-body {
+      display: none;
+      background: #f0f0f0;
+      padding: 15px;
+      color: #333;
+    }
+    body.dark-mode .accordion-body {
+      background: #1e1e1e;
+      color: #e0e0e0;
+    }
+    .accordion-item.active .accordion-body {
+      display: block;
     }
   </style>
 </head>
 <body>
-
   <div class="navbar">
     <div class="logo">CYBERPIXEL</div>
     <button class="theme-toggle" onclick="toggleDarkMode()">🌙</button>
-  </div>
-
-  <div id="home" class="section active">
+  </div>  <div id="home" class="section active">
     <h2>Welcome to CYBERPIXEL</h2>
     <img src="IMG_20250602_120057 (1).jpg" alt="Mohan" />
     <h2>Hey, I'm MOHAN</h2>
     <p>Founder of CYBERPIXEL — Developer, Hacker & Learner</p>
-  </div>
-
-  <div id="about" class="section">
+  </div>  <div id="about" class="section">
     <h2>🚀 My Mission</h2>
-    <p>I am passionate about cybersecurity, ethical hacking, and full-stack development.
-    My goal is to build innovative and secure digital solutions to help individuals and businesses.</p>
-  </div>
-
-  <div id="work" class="section">
-    <h2>🛠️ What I Do</h2>
-    <ul>
-      <li>Full-Stack Web Development</li>
-      <li>Ethical Hacking & Cybersecurity</li>
-      <li>Mobile App Development</li>
-      <li>Responsive Website Design</li>
-      <li>Freelance Project Work</li>
-    </ul>
-  </div>
-
-  <div id="contact" class="section">
-    <h2>📞 Connect with Me</h2>
+    <p>I am passionate about cybersecurity, ethical hacking, and full-stack development. My goal is to build innovative and secure digital solutions.</p>
+  </div>  <div id="work" class="section">
+    <h2>🛠️ My Services</h2>
+    <div class="accordion">
+      <div class="accordion-item"><button class="accordion-header">💻 Full-Stack Web Development</button><div class="accordion-body">Responsive websites using Python, HTML, CSS, JS, Flask/Django, etc.</div></div>
+      <div class="accordion-item"><button class="accordion-header">🔐 Ethical Hacking & Cybersecurity</button><div class="accordion-body">VAPT, bug bounty, secure network implementation.</div></div>
+      <div class="accordion-item"><button class="accordion-header">📱 Android App Development</button><div class="accordion-body">Apps using Flutter, React Native, Kivy, Pydroid.</div></div>
+      <div class="accordion-item"><button class="accordion-header">🎮 Game Development</button><div class="accordion-body">2D/3D games using Unity, Unreal Engine, or Pygame.</div></div>
+      <div class="accordion-item"><button class="accordion-header">🧠 AI/ML Projects</button><div class="accordion-body">ML models with Python, TensorFlow, OpenCV projects.</div></div>
+      <div class="accordion-item"><button class="accordion-header">🧑‍💼 Freelancing / Consulting</button><div class="accordion-body">Custom digital solutions for clients & startups.</div></div>
+    </div>
+  </div>  <div id="contact" class="section">
+    <h2>📞 Contact Me</h2>
     <p>Email: parmarmohansingh26@gmail.com</p>
     <div class="contact-buttons">
-      <button onclick="window.location.href='mailto:parmarmohansingh26@gmail.com'">
-        <i class="fas fa-envelope"></i> Email Me
-      </button>
-      <button onclick="window.open('https://instagram.com/ur.mohan_', '_blank')">
-        <i class="fab fa-instagram"></i> Instagram
-      </button>
+      <button onclick="window.location.href='mailto:parmarmohansingh26@gmail.com'">📧 Email</button>
+      <button onclick="window.open('https://instagram.com/ur.mohan_', '_blank')">📷 Instagram</button>
     </div>
-  </div>
-
-  <div class="controls">
+  </div>  <div class="controls">
     <button id="prevBtn" onclick="changeSection(-1)" disabled>⬅ Back</button>
     <button id="nextBtn" onclick="changeSection(1)">Next ➡</button>
-  </div>
-
-  <script>
+  </div>  <script>
     let current = 0;
     const sections = document.querySelectorAll('.section');
     const prevBtn = document.getElementById('prevBtn');
     const nextBtn = document.getElementById('nextBtn');
 
     function updateView() {
-      sections.forEach((sec, index) => {
-        sec.classList.toggle('active', index === current);
-      });
+      sections.forEach((sec, index) => sec.classList.toggle('active', index === current));
       prevBtn.disabled = current === 0;
       nextBtn.disabled = current === sections.length - 1;
     }
-
     function changeSection(step) {
       if ((current + step >= 0) && (current + step < sections.length)) {
         current += step;
         updateView();
       }
     }
-
     function toggleDarkMode() {
       document.body.classList.toggle('dark-mode');
-      document.querySelector('.theme-toggle').textContent =
-        document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
+      document.querySelector('.theme-toggle').textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
     }
-
     document.addEventListener('keydown', (e) => {
       if (e.key === "ArrowRight") changeSection(1);
       if (e.key === "ArrowLeft") changeSection(-1);
     });
-  </script>
-
-</body>
+    document.querySelectorAll('.accordion-header').forEach(header => {
+      header.addEventListener('click', () => {
+        const item = header.parentElement;
+        item.classList.toggle('active');
+      });
+    });
+  </script></body>
 </html>
