@@ -423,6 +423,58 @@
              </h3>
              <p class="fade-in">Founder of CYBERPIXEL — Developer, Hacker & Learner</p>
          </div>
+.loader {
+  width: 80px;
+  height: 80px;
+  margin: 50px auto;
+  perspective: 600px;
+}
+
+.cube {
+  width: 60px;
+  height: 60px;
+  position: relative;
+  margin: auto;
+  transform-style: preserve-3d;
+  animation: rotateCube 3s linear infinite;
+}
+
+.cube div {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  background: #00bcd4;
+  opacity: 0.8;
+  border: 2px solid #0288d1;
+}
+
+/* Cube faces */
+.cube .front  { transform: translateZ(30px); }
+.cube .back   { transform: rotateY(180deg) translateZ(30px); }
+.cube .right  { transform: rotateY(90deg) translateZ(30px); }
+.cube .left   { transform: rotateY(-90deg) translateZ(30px); }
+.cube .top    { transform: rotateX(90deg) translateZ(30px); }
+.cube .bottom { transform: rotateX(-90deg) translateZ(30px); }
+
+@keyframes rotateCube {
+  0%   { transform: rotateX(0deg) rotateY(0deg); }
+  100% { transform: rotateX(360deg) rotateY(360deg); }
+}
+.cube {
+  animation: rotateCube 5s linear infinite;
+  transform-style: preserve-3d;
+  transition: transform 0.3s ease;
+}
+
+.cube.paused {
+  animation-play-state: paused !important;
+  cursor: grab;
+}
+
+.cube div {
+  box-shadow: 0 0 15px rgba(0, 188, 212, 0.7);
+}
+</style>
 
          <div id="about" class="section">
              <h2><🚀 My Mission></h2>
