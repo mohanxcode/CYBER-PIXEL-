@@ -560,53 +560,73 @@
                          <p>Available for freelance projects, consulting, and private development gigs.</p>
                      </div>
                  </div>
-                     <!-- Notice Box Start -->
-<div class="notice-box">
-  <h3>🔔 Notice</h3>
-<h3 class="slide-in">
-  <p>
-    This is a demo website created for personal learning and portfolio purposes.  
-    The content shared here is limited and may not fully represent my professional skills or background.  
-    I am continuously learning and improving.
-<p> Thank you for visiting!
-  </p>
-</div>
-
-<!-- CSS Styling (Add inside <style> tag or CSS file) -->
+<!-- 🔔 Smooth Red Notice Accordion -->
 <style>
-  .notice-box {
-    background: #fff4d6;
-    color: #333;
-    border-left: 5px solid #ff9800;
-    padding: 15px 20px;
-    margin: 30px auto;
-    max-width: 800px;
-    font-family: 'Segoe UI', sans-serif;
-    box-shadow: 0 0 10px rgba(0,0,0,0.05);
+  .red-accordion {
     border-radius: 8px;
-    transition: 0.3s ease;
+    margin: 20px 0;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    overflow: hidden;
+    transition: all 0.3s ease;
   }
 
-  .notice-box:hover {
-    background: #fff0c1;
+  .red-accordion-header {
+    background-color: red;
+    color: white;
+    padding: 15px 20px;
+    font-size: 18px;
+    cursor: pointer;
+    border: none;
+    width: 100%;
+    text-align: left;
+    outline: none;
+    transition: background 0.3s ease;
   }
 
-  .notice-box h3 {
-    margin: 0 0 10px;
-    font-size: 20px;
-    color: #e65100;
+  .red-accordion-header:hover {
+    background-color: darkred;
   }
 
-  .notice-box p {
-    margin: 0;
-    line-height: 1.6;
-    font-size: 16px;
+  .red-accordion-body {
+    background-color: #ffcccc;
+    color: black;
+    padding: 0 20px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease, padding 0.3s ease;
+    opacity: 0;
+  }
+
+  .red-accordion.active .red-accordion-body {
+    padding: 15px 20px;
+    max-height: 500px; /* adjust as per content */
+    opacity: 1;
   }
 </style>
+
+<div class="red-accordion">
+  <button class="red-accordion-header">🔔 Notice</button>
+  <div class="red-accordion-body">
+    <p>This is a demo website created for personal learning and portfolio purposes.<br>
+    The content shared here is limited and may not fully represent my professional skills or background.<br>
+    I am continuously learning and improving.</p>
+    <p>Thank you for visiting!</p>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll('.red-accordion-header').forEach(button => {
+    button.addEventListener('click', () => {
+      const accordion = button.parentElement;
+      accordion.classList.toggle('active');
+    });
+  });
+</script>
              </div>
          </div>
 
          <div id="contact" class="section contact-section">
+                 
              <h2 class="section-title"><☎️ Contact Me></h2>
              <div class="contact-content">
                  <div class="contact-info slide-in-bottom">
