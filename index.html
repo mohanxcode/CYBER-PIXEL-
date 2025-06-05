@@ -648,6 +648,164 @@
                      <textarea placeholder="Your Message/Suggestion" required></textarea>
                      <button type="submit">Send Message</button>
                  </form>
+<section id="feedback" style="padding: 60px 20px; background: transparent; color: white; text-align: center;">
+  <h2 style="font-size: 2.2em; margin-bottom: 15px;"></h2>
+  <p style="color: #aaa; margin-bottom: 30px;">Tap the stars and let us know!</p>
+
+  <form id="reviewForm" action="https://formspree.io/f/xqabawyg" method="POST" style="max-width: 500px; margin: auto;">
+    
+    <!-- Grey rounded box -->
+    <div class="review-box">
+      <div id="star-container">
+        <span class="star" data-value="1">★</span>
+        <span class="star" data-value="2">★</span>
+        <span class="star" data-value="3">★</span>
+        <span class="star" data-value="4">★</span>
+        <span class="star" data-value="5">★</span>
+      </div>
+
+      <p id="live-message"></p>
+    </div>
+
+    <input type="hidden" name="rating" id="ratingInput" value="">
+    <input type="hidden" name="message" id="messageInput" value="">
+
+    <input type="email" name="email" placeholder="Your email (optional)" style="
+      width: 100%;
+      padding: 12px;
+      border: 12px;
+      border-radius: 8px;
+      margin-top: 20px;
+      font-size: 1em;
+      background: rgba(255,255,255,0.1);
+      color: white;
+    ">
+
+    <button type="submit" style="
+      margin-top: 20px;
+      padding: 12px 30px;
+      font-size: 1em;
+      border: none;
+      border-radius: 8px;
+      background: #00bcd4;
+      color: white;
+      cursor: pointer;
+      transition: background 0.3s;
+    ">Submit</button>
+  </form>
+</section>
+
+<style>
+  .review-box {
+    background: rgba(100, 100, 100, 0.2);
+    padding: 25px;
+    border-radius: 20px;
+    backdrop-filter: blur(5px);
+    box-shadow: 0 0 15px rgba(0,0,0,0.3);
+    transition: box-shadow 0.3s;
+  }
+
+  .review-box:hover {
+    box-shadow: 0 0 25px rgba(0, 123, 255, 0.5);
+  }
+
+  #star-container {
+    font-size: 2.8em;
+    margin-bottom: 10px;
+  }
+
+  .star {
+    color: #555;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    user-select: none;
+    display: inline-block;
+  }
+
+  .star.active {
+    color: #ffd700;
+    text-shadow: 0 0 10px #ffda44, 0 0 20px #ffd700;
+    transform: scale(1.2);
+    animation: pop 0.3s ease;
+  }
+
+  @keyframes pop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.4); }
+    100% { transform: scale(1.2); }
+  }
+
+  .star:hover {
+    color: #ffc107;
+  }
+
+  #live-message {
+    margin-top: 10px;
+    font-size: 1.1em;
+    color: #00d9ff;
+  }
+</style>
+
+<script>
+  const stars = document.querySelectorAll(".star");
+  const liveMsg = document.getElementById("live-message");
+  const ratingInput = document.getElementById("ratingInput");
+  const messageInput = document.getElementById("messageInput");
+  const form = document.getElementById("reviewForm");
+
+  const liveFeedback = {
+    1: "Aap to dil tod rahe ho😢",
+    2: "Chalo, next baar best! 💪🔥😉",
+    3: "Middle road? Chalo improve karta hoon!",
+    4: "Oyee! Bas ek star door hoon 😍",
+    5: "Legend spotted! 👑 Aapke liye free update!"
+  };
+
+  const thankMessages = {
+    1: "Thanks! We'll do better!",
+    2: "Got it. We'll improve!",
+    3: "Thanks! Noted.",
+    4: "Thanks for the support!",
+    5: "Yay! You're awesome!"
+  };
+
+  const funnyMessages = {
+    1: "Worst. Needs rescue! 🧯",
+    2: "Umm... Not great 😶",
+    3: "Hmm... Average vibes ✌️",
+    4: "Nice job buddy 👌",
+    5: "Fire! Legendary 💥🔥"
+  };
+
+  let selected = 0;
+
+  stars.forEach((star, i) => {
+    star.addEventListener("click", () => {
+      selected = i + 1;
+      ratingInput.value = selected;
+      messageInput.value = funnyMessages[selected];
+
+      stars.forEach((s, j) => {
+        s.classList.remove("active");
+        if (j <= i) {
+          s.classList.add("active");
+        }
+      });
+
+      liveMsg.textContent = liveFeedback[selected];
+    });
+  });
+
+  form.addEventListener("submit", (e) => {
+    if (selected === 0) {
+      e.preventDefault();
+      alert("Please select a star rating before submitting!");
+      return;
+    }
+
+    alert(thankMessages[selected]);
+  });
+</script>
              </div>
          </div>
      </main>
