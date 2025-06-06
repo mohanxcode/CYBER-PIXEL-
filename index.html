@@ -783,12 +783,21 @@
   .star:hover {
     color: #ffc107;
   }
+#live-message {
+  margin-top: 10px;
+  font-size: 1.1em;
+  color: #00d9ff;
+  white-space: nowrap;        /* एक लाइन में रखो */
+  overflow: hidden;
+  text-overflow: ellipsis;    /* अगर नहीं समाया तो "..." दिखाओ */
+  text-align: center;
+  max-width: 100%;
+  display: block;
+  padding: 5px 10px;
 
-  #live-message {
-    margin-top: 10px;
-    font-size: 1.1em;
-    color: #00d9ff;
-  }
+  /* Responsive shrinking effect */
+  font-size: clamp(0.8em, 2vw, 1.1em);
+}
 </style>
 
 <script>
