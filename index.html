@@ -739,7 +739,225 @@ This project is protected under copyright. Unauthorized copying will result in t
          <div id="contact" class="section contact-section">
                  
              <h2 class="section-title"><☎️ Contact Me></h2>
-         
+         <section id="review" class="contact-section">
+  <style>
+    .contact-section {
+      padding: 80px 20px;
+      background: #f9f9f9;
+    }
+
+    .contact-form {
+      max-width: 500px;
+      margin: auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      position: relative;
+      overflow: hidden;
+      transition: box-shadow 0.4s ease, transform 0.4s ease;
+    }
+
+    .contact-form.glow-effect::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(255,175,238,0.25) 0%, rgba(255,255,255,0) 80%);
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 0;
+      animation: glowPop 1.2s ease-out forwards;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    @keyframes glowPop {
+      0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(0.5);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(2);
+      }
+    }
+
+    .contact-form:hover {
+      box-shadow: 0 0 25px rgba(255, 105, 180, 0.3);
+      transform: scale(1.01);
+    }
+
+    .contact-section h2 {
+      text-align: center;
+      font-size: 28px;
+      color: #222;
+      margin-bottom: 10px;
+    }
+
+    .star-rating-box {
+      text-align: center;
+      font-size: 18px;
+      color: #ff9800;
+      margin-bottom: 20px;
+    }
+
+    .star-rating-box .star {
+      font-size: 22px;
+      color: gold;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 15px;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      font-size: 16px;
+      outline: none;
+      transition: 0.3s;
+      position: relative;
+      z-index: 1;
+    }
+
+    .contact-form input:focus,
+    .contact-form textarea:focus {
+      border-color: #007bff;
+      background: #f0faff;
+    }
+
+    .rating {
+      margin: 10px 0 10px;
+    }
+
+    .stars {
+      direction: rtl;
+      display: flex;
+      justify-content: center;
+      gap: 5px;
+    }
+
+    .stars input[type="radio"] {
+      display: none;
+    }
+
+    .stars label {
+      font-size: 30px;
+      color: #ccc;
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+
+    .stars input[type="radio"]:checked ~ label,
+    .stars label:hover,
+    .stars label:hover ~ label {
+      color: gold;
+      text-shadow: 0 0 8px #ffc107;
+    }
+
+    .rating-message {
+      text-align: center;
+      font-weight: bold;
+      color: #444;
+      margin-top: 10px;
+      min-height: 24px;
+      font-style: italic;
+    }
+
+    .contact-form button {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      background: linear-gradient(to right, #ff4081, #ff80ab);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      z-index: 1;
+    }
+
+    .contact-form button:hover {
+      background: linear-gradient(to right, #ff1744, #ff4081);
+      transform: scale(1.05);
+      box-shadow: 0 0 12px rgba(255, 64, 129, 0.5);
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(20px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+  </style>
+
+  <h2 class="section-title">📬Give Your feedback🌟</h2>
+  <div class="star-rating-box">
+    <span class="star">⭐</span> 4.3
+  </div>
+
+  <form action="https://formspree.io/f/mzzggyjo" method="POST" class="contact-form" id="reviewForm">
+    <input type="text" name="name" placeholder="Your Name" required>
+    <input type="email" name="email" placeholder="Your Email" required>
+    <textarea name="message" rows="5" placeholder="Write your feedback..." required></textarea>
+
+    <div class="rating">
+      <label style="display:block; text-align: center; font-weight: bold; margin-bottom: 10px;">Your Rating:</label>
+      <div class="stars" onclick="showRatingMessage()">
+        <input type="radio" id="star5" name="rating" value="5" required><label for="star5">★</label>
+        <input type="radio" id="star4" name="rating" value="4"><label for="star4">★</label>
+        <input type="radio" id="star3" name="rating" value="3"><label for="star3">★</label>
+        <input type="radio" id="star2" name="rating" value="2"><label for="star2">★</label>
+        <input type="radio" id="star1" name="rating" value="1"><label for="star1">★</label>
+      </div>
+      <div class="rating-message" id="ratingMessage"></div>
+    </div>
+
+    <button type="submit">Submit Review</button>
+  </form>
+
+  <script>
+    // Show rating message on selection
+    function showRatingMessage() {
+      const rating = document.querySelector('input[name="rating"]:checked');
+      const message = document.getElementById("ratingMessage");
+      if (rating) {
+        switch (rating.value) {
+          case "5":
+            message.textContent = "Thank you for the 5-star review!";
+            break;
+          case "4":
+            message.textContent = "Thanks! We're glad you liked it!";
+            break;
+          case "3":
+            message.textContent = "Appreciated! We’ll try to improve.";
+            break;
+          case "2":
+            message.textContent = "Thanks for your honesty. We'll work on it.";
+            break;
+          case "1":
+            message.textContent = "Sorry to hear that. Let us do better.";
+            break;
+        }
+      }
+    }
+
+    document.querySelectorAll('input[name="rating"]').forEach(radio => {
+      radio.addEventListener('change', showRatingMessage);
+    });
+
+    // Glow effect on any click inside form
+    const form = document.getElementById('reviewForm');
+    form.addEventListener('click', function () {
+      form.classList.add('glow-effect');
+      setTimeout(() => {
+        form.classList.remove('glow-effect');
+      }, 1200);
+    });
+  </script>
+</section>
              </div>
          </div>
      </main>
