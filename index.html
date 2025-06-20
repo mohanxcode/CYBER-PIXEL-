@@ -417,8 +417,74 @@ This project is protected under copyright. Unauthorized copying will result in t
     </div>
 
   </div>
-  <div style="text-align: center; margin-top: 40px;">
-    <button onclick="showPasswordPrompt()" style="padding: 10px 20px; border-radius: 25px; background: #4f46e5; color: white; border: none; cursor: pointer;">+ Add Your Testimonial</button>
+<!-- 🔐 Trigger Button -->
+<div style="text-align:center; margin:40px 0;">
+  <button onclick="openPasswordBox()" style="padding: 10px 25px; border: none; border-radius: 25px; background: #4f46e5; color: white; font-weight: 500; cursor: pointer;">+ Add Your Testimonial</button>
+</div>
+
+<!-- 🔐 Custom Password Box -->
+<div id="passwordPopup" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); backdrop-filter: blur(3px); z-index:999; align-items:center; justify-content:center;">
+  <div style="background:white; padding:30px; border-radius:16px; max-width:320px; width:90%; text-align:center; box-shadow:0 8px 20px rgba(0,0,0,0.2); animation: popIn 0.4s ease;">
+    <h3 style="margin-bottom:15px;">Enter Admin Password</h3>
+
+    <!-- Password Input with Eye -->
+    <div style="position:relative;">
+      <input type="password" id="passwordInput" placeholder="••••••••" style="width:100%; padding:12px 40px 12px 12px; border-radius:8px; border:1px solid #ccc;" />
+      <span onclick="togglePassword()" style="position:absolute; right:10px; top:50%; transform:translateY(-50%); cursor:pointer;">
+        <svg id="eyeIcon" xmlns="http://www.w3.org/2000/svg" height="24" width="24" fill="#666"><path d="M12 5c-7 0-11 7-11 7s4 7 11 7 11-7 11-7-4-7-11-7Zm0 12a5 5 0 1 1 0-10 5 5 0 0 1 0 10Zm0-8a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z"/></svg>
+      </span>
+    </div>
+
+    <!-- Submit Button -->
+    <br />
+    <button onclick="checkPassword()" style="padding:10px 20px; background:#4f46e5; color:white; border:none; border-radius:25px; font-weight:500;">Submit</button>
+    <br /><br />
+    <button onclick="closePasswordBox()" style="background:none; color:gray; border:none; font-size:14px; text-decoration:underline; cursor:pointer;">Cancel</button>
+  </div>
+</div>
+
+<!-- 🔐 JS Logic -->
+<script>
+  function openPasswordBox() {
+    document.getElementById("passwordPopup").style.display = "flex";
+  }
+
+  function closePasswordBox() {
+    document.getElementById("passwordPopup").style.display = "none";
+  }
+
+  function checkPassword() {
+    const pass = document.getElementById("passwordInput").value;
+    if (pass === "monxadmin") {
+      document.getElementById("passwordPopup").style.display = "none";
+      document.getElementById("testimonialForm").style.display = "block";
+      alert("✅ Access Granted!");
+    } else {
+      alert("❌ Incorrect password!");
+    }
+  }
+
+  // Toggle show/hide password
+  function togglePassword() {
+    const input = document.getElementById("passwordInput");
+    const icon = document.getElementById("eyeIcon");
+    if (input.type === "password") {
+      input.type = "text";
+      icon.innerHTML = `<path d="M12 5c-7 0-11 7-11 7s4 7 11 7c1.7 0 3.2-.4 4.6-1.1l1.4 1.4c-1.8 1-4 1.7-6 1.7-7 0-11-7-11-7s1.5-2.6 4-4.5l1.5 1.5C6.4 12.5 5 14 5 14s4 7 11 7c1.7 0 3.3-.3 4.8-.9l1.5 1.5-1.4 1.4-18-18 1.4-1.4 1.6 1.6C8.2 6.4 10 6 12 6c1.7 0 3.2.4 4.6 1.1L18 5.7C16.2 4.6 14.2 4 12 4c-2 0-4 .4-5.8 1.2L5.5 3.9C7.3 2.8 9.6 2 12 2c7 0 11 7 11 7s-4 7-11 7c-1.6 0-3.2-.4-4.6-1.1l-1.5-1.5C5.8 15.6 7 16 8 16c3 0 5-2 5-5 0-1.2-.4-2.2-1-3Z"/>`;
+    } else {
+      input.type = "password";
+      icon.innerHTML = `<path d="M12 5c-7 0-11 7-11 7s4 7 11 7 11-7 11-7-4-7-11-7Zm0 12a5 5 0 1 1 0-10 5 5 0 0 1 0 10Zm0-8a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z"/>`;
+    }
+  }
+</script>
+
+<!-- ✨ Animation -->
+<style>
+  @keyframes popIn {
+    from { transform: scale(0.7); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+</style>
   </div>
   <p style="font-size: 12px; color: #999; margin-top: 20px; text-align: center;">
   🛡️ This section is <strong>only for client submissions</strong>. Public opinions are not accepted.
