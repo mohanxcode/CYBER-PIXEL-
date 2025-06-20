@@ -2,1080 +2,552 @@
 © 2025 MONXCODE™. 
 This project is protected under copyright. Unauthorized copying will result in takedown actions.
 -->
- <!DOCTYPE html>
- <html lang="en">
- <head>
-   <meta charset="UTF-8" />
-   <meta name="viewport" content="width=device-width, initial-scale=1" />
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MONXCODE - Web Developer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
   <style>
-    :root, * {
-      color-scheme: only light !important;
-      forced-color-adjust: none !important;
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+    :root {
+      --bg: #fff; --text: #333; --card: #fff;
     }
+    [data-theme="dark"] {
+      --bg: #121212; --text: #eee; --card: #1e1e1e;
+    }
+    body {
+      background: var(--bg); color: var(--text); transition: 0.3s;
+    }
+    header, footer, .section { background: var(--card); transition: 0.3s; }
+    header {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 20px 10%; box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+    .logo { font-weight: 700; font-size: 24px; color: #4f46e5; }
+    nav ul { display: flex; list-style: none; gap: 30px; }
+    nav a { text-decoration: none; color: var(--text); font-weight: 500; transition: 0.3s; }
+    nav a:hover { color: #4f46e5; }
+    .cta { background: #4f46e5; color: white; padding: 10px 20px; border-radius: 25px; text-decoration: none; font-weight: 500; transition: 0.3s; }
+    .cta:hover { background: #3730a3; }
+    .hamburger { display: none; font-size: 24px; cursor: pointer; }
+    .mobile-menu { display: none; flex-direction: column; position: absolute; top: 70px; right: 10%; background: var(--card); padding: 20px; border-radius: 10px; box-shadow: 0 5px 25px rgba(0,0,0,0.1); }
+    .mobile-menu.show { display: flex; }
+    @media (max-width: 768px) {
+      nav ul { display: none; }
+      .hamburger { display: block; }
+    }
+    .hero {
+      padding: 60px 10%; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center;
+      background: linear-gradient(135deg, #f3f4f6, #fff6f9);
+    }
+    .hero-text { flex: 1; }
+    .hero-text h1 { font-size: 42px; }
+    .hero-text span { color: #4f46e5; }
+    .typing-text { color: #4f46e5; font-weight: 600; font-size: 18px; height: 24px; margin-top: 5px; }
+    .hero-buttons a { margin: 10px 10px 0 0; display: inline-block; }
+    .hero-img img { max-width: 300px; border-radius: 50%; box-shadow: 0 5px 25px rgba(0,0,0,0.1); padding: 10px; background: radial-gradient(circle at 50% 30%, #dcd7ff, #ffffff); }
+    .hero-socials { margin-top: 15px; display: flex; gap: 15px; }
+    .hero-socials a { text-decoration: none; font-size: 20px; color: #4f46e5; }
   </style>
-   <title>MONXCODE - Mohan</title>
-   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
-   <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-   <style>
-     /* Reset */
-     * {
-       margin: 0;
-       padding: 0;
-       box-sizing: border-box;
-     }
-
-     html, body {
-       width: 100%;
-       height: 100%;
-       font-family: 'Poppins', sans-serif;
-       /* Removed overflow: hidden; here to allow sections to scroll */
-       transition: background 0.5s, color 0.5s;
-       background: #ADD8E6;
-       color: #333;
-       position: relative;
-     }
-     /* Dynamic animated background */
-     body::before {
-       content: '';
-       position: fixed;
-       top: 0; left: 0; right: 0; bottom: 0;
-       background: linear-gradient(270deg, #00bcd4, #00796b, #00e5ff, #00bcd4);
-       background-size: 800% 800%;
-       animation: backgroundShift 30s ease infinite;
-       z-index: -1;
-       opacity: 0.15;
-       transition: opacity 0.5s;
-       animation-play-state: paused;
-     }
-     body.page-switching::before {
-       opacity: 0.4;
-       animation-play-state: running;
-     }
-
-     @keyframes backgroundShift {
-       0% {background-position: 0% 50%;}
-       50% {background-position: 100% 50%;}
-       100% {background-position: 0% 50%;}
-     }
-
-     /* Navbar */
-     .navbar {
-       position: fixed;
-       top: 0;
-       width: 100%;
-       background-color: #1e1e1e;
-       padding: 15px 30px;
-       display: flex;
-       justify-content: space-between;
-       align-items: center;
-       z-index: 1000;
-     }
-     .navbar .logo {
-       color: #00bcd4;
-       font-weight: bold;
-       font-size: 24px;
-       font-family: 'Orbitron', sans-serif;
-     }
-     /* Sections */
-     .section {
-       display: none;
-       width: 100%;
-       min-height: 100vh; /* Use min-height to ensure full height, allowing content to extend */
-       padding: 120px 20px 60px;
-       opacity: 0;
-       transform: translateY(30px);
-       transition: opacity 0.6s ease, transform 0.6s ease;
-       overflow-y: auto; /* Allow scrolling within the section if content overflows */
-       -webkit-overflow-scrolling: touch;
-       color: inherit;
-     }
-     .section.active {
-       display: block;
-       opacity: 1;
-       transform: translateY(0);
-     }
-
-     /* Section title - horizontally center & vertically near top */
-     .section h2 {
-       font-size: 32px;
-       font-family: 'Orbitron', sans-serif;
-       color: #00bcd4;
-       text-shadow: 1px 1px 2px rgba(0,255,255,0.4);
-       text-align: center;
-       margin-bottom: 25px;
-       position: relative;
-       top: -20px;
-     }
-
-     /* Paragraph and list styling */
-     .section p,
-     .section ul {
-       font-size: 18px;
-       max-width: 650px;
-       margin: 0 auto;
-       line-height: 1.6;
-       text-align: center;
-       color: inherit;
-     }
-
-     /* Image styling */
-     .section img {
-       width: 160px;
-       height: 160px;
-       border-radius: 50%;
-       margin: 20px auto;
-       display: block;
-       object-fit: cover;
-       border: 5px solid transparent;
-       background: linear-gradient(#121212, #121212) padding-box,
-                   linear-gradient(135deg, #00bcd4, #00796b, #00e5ff) border-box;
-       box-shadow: 0 0 25px rgba(0, 255, 255, 0.4), 0 0 15px rgba(0, 255, 255, 0.2);
-       animation: glowPulse 3s infinite ease-in-out;
-     }
-     @keyframes glowPulse {
-       0%, 100% {
-         box-shadow: 0 0 25px rgba(0, 255, 255, 0.4), 0 0 15px rgba(0, 255, 255, 0.2);
-         transform: scale(1);
-       }
-       50% {
-         box-shadow: 0 0 35px rgba(0, 255, 255, 0.7), 0 0 25px rgba(0, 255, 255, 0.3);
-         transform: scale(1.03);
-       }
-     }
-
-     /* Lists */
-     ul {
-       list-style: none;
-       padding: 0;
-     }
-     li::before {
-       content: "✔ ";
-       color: #00e676;
-     }
-
-     /* Controls buttons */
-     .controls {
-       position: fixed;
-       bottom: 20px;
-       width: 100%;
-       display: flex;
-       justify-content: center;
-       gap: 20px;
-       z-index: 1001;
-     }
-     .controls button {
-       padding: 12px 24px;
-       border: none;
-       background: #00bcd4;
-       color: white;
-       font-size: 16px;
-       font-weight: bold;
-       border-radius: 30px;
-       cursor: pointer;
-       box-shadow: 0 3px 8px rgba(0,0,0,0.3);
-       transition: background 0.3s;
-     }
-     .controls button:disabled {
-       background: #ccc;
-       cursor: not-allowed;
-     }
-     .controls button:hover:not(:disabled) {
-       background: #0097a7;
-     }
-
-     /* Contact buttons - if any were present */
-     .contact-buttons {
-       margin-top: 15px;
-     }
-     .contact-buttons button {
-       margin: 10px 15px;
-       padding: 12px 24px;
-       font-size: 18px;
-       border-radius: 10px;
-       background: linear-gradient(135deg, #00796b, #00bcd4);
-       color: white;
-       border: none;
-       cursor: pointer;
-       transition: transform 0.2s;
-     }
-     .contact-buttons button:hover {
-       transform: scale(1.05);
-     }
-
-     /* Accordion style for Work section */
-     .accordion {
-       display: flex;
-       flex-direction: column;
-       gap: 10px;
-       max-width: 650px;
-       margin: 0 auto;
-       text-align: left;
-       color: inherit;
-     }
-     .accordion-header {
-       width: 100%;
-       background-color: #00bcd4;
-       color: white;
-       font-weight: 600;
-       padding: 12px 16px;
-       border: none;
-       cursor: pointer;
-       border-radius: 10px;
-       font-size: 18px;
-       transition: background 0.3s;
-       text-align: left;
-       display: flex;
-       justify-content: space-between;
-       align-items: center;
-     }
-     .accordion-header:hover {
-       background-color: #0097a7;
-     }
-     .accordion-header::after {
-       content: '+';
-       font-weight: bold;
-       font-size: 22px;
-       transition: transform 0.3s ease;
-     }
-     .accordion-item.active .accordion-header::after {
-       content: '−';
-       transform: rotate(180deg);
-     }
-     .accordion-body {
-       max-height: 0;
-       overflow: hidden;
-       background-color: rgba(0, 188, 212, 0.1);
-       padding: 0 16px;
-       border-radius: 0 0 10px 10px;
-       transition: max-height 0.4s ease, padding 0.3s ease;
-       font-size: 16px;
-       color: inherit;
-     }
-     .accordion-item.active .accordion-body {
-       max-height: 200px; /* Adjust as needed based on content */
-       padding: 10px 16px;
-     }
-
-     /* Responsive */
-     @media (max-width: 600px) {
-       .section h2 {
-         font-size: 26px;
-         top: -10px;
-       }
-       .section p, ul, .accordion {
-         font-size: 16px;
-         max-width: 90%;
-       }
-       .accordion-header {
-         font-size: 16px;
-       }
-     }
-     /*logo*/
-     .logo-container {
-       display: flex;
-       align-items: center;
-       gap: 10px;
-     }
-     .logo-dp {
-       width: 40px;
-       height: 40px;
-       border-radius: 25%;
-       object-fit: cover;
-       border: 3px solid yellow;
-     }
-
-     /* Home Section Specific Styling */
-     .home-section {
-       text-align: center;
-       padding: 80px 20px;
-     }
-
-     .cursor {
-       display: inline-block;
-       background-color: #00bcd4;
-       width: 3px;
-       animation: blink 0.7s infinite;
-     }
-
-     @keyframes blink {
-       0%, 50%, 100% { opacity: 1; }
-       25%, 75% { opacity: 0; }
-     }
-
-     .fade-in {
-       animation: fadeIn 2s ease;
-     }
-
-     .slide-in {
-       animation: slideIn 1.5s ease;
-     }
-
-     @keyframes fadeIn {
-       from { opacity: 0; transform: translateY(20px); }
-       to { opacity: 1; transform: translateY(0); }
-     }
-
-     @keyframes slideIn {
-       from { opacity: 0; transform: translateY(40px); }
-       to { opacity: 1; transform: translateY(0); }
-     }
-
-     /* Contact Section Styling */
-     .contact-section {
-       padding: 80px 20px 60px;
-       /* Remove background and color here if already set on body or specific dark mode */
-       text-align: center;
-       overflow: visible;
-       background: #fdf6e3; /* Ensure it has a background if not handled by body */
-       color: #333; /* Ensure it has a color if not handled by body */
-     }
-
-     .section-title {
-       font-size: 2.5em;
-       color: #00bcd4;
-       margin-bottom: 30px;
-       font-weight: 700;
-       font-family: 'Orbitron', sans-serif;
-     }
-
-     .contact-content {
-       display: flex;
-       flex-wrap: wrap;
-       justify-content: center;
-       gap: 50px;
-       max-width: 800px;
-       margin: auto;
-     }
-
-     .contact-info, .contact-form {
-       flex: 1 1 300px;
-       text-align: left;
-     }
-
-     .contact-info a {
-       color: #00bcd4; /* Changed to match theme */
-       text-decoration: none;
-       transition: color 0.3s ease;
-     }
-
-     .contact-info a:hover {
-       color: #0097a7;
-     }
-
-     .contact-form input,
-     .contact-form textarea {
-       width: 100%;
-       margin-bottom: 15px;
-       padding: 10px;
-       border: none;
-       border-radius: 8px;
-       background: rgba(0, 188, 212, 0.1); /* Added a light background */
-       color: inherit; /* Inherit color from parent for better theme integration */
-       font-size: 1em;
-       outline: none; /* Remove default outline */
-       border: 1px solid rgba(0, 188, 212, 0.3); /* Light border */
-     }
-
-     .contact-form input::placeholder,
-     .contact-form textarea::placeholder {
-         color: rgba(51, 51, 51, 0.7); /* Lighter placeholder text */
-     }
-
-
-
-     .contact-form button {
-       background: #00bcd4;
-       color: white; /* Changed text color to white for better contrast */
-       padding: 10px 20px;
-       border: none;
-       border-radius: 8px;
-       cursor: pointer;
-       font-weight: bold;
-       transition: background 0.3s ease, transform 0.2s ease;
-     }
-
-     .contact-form button:hover {
-       background: #0097a7; /* Darker shade on hover */
-       transform: translateY(-2px); /* Slight lift on hover */
-     }
-
-     /* Animations */
-     .slide-in-bottom {
-       animation: slideInBottom 1s ease;
-     }
-
-     @keyframes slideInBottom {
-       from { opacity: 0; transform: translateY(40px); }
-       to { opacity: 1; transform: translateY(0); }
-     }
-#projects {
-  padding: 60px 20px;
-  background: #ADD8E6;
-  color: #333;
-  text-align: center;
-}
-
-.section-title {
-  font-size: 2em;
-  margin-bottom: 30px;
-  color: #00ccff;
-}
-
-.projects-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 20px;
-  justify-items: center;
-}
-
-.project-card {
-  background: white;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  padding: 20px;
-  width: 100%;
-  max-width: 260px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.project-card h3 {
-  margin-bottom: 10px;
-  color: #007acc;
-}
-
-.project-card p {
-  font-size: 0.95em;
-  margin-bottom: 10px;
-}
-
-.project-card a {
-  text-decoration: none;
-  color: white;
-  background: #00ccff;
-  padding: 6px 12px;
-  border-radius: 5px;
-  font-weight: bold;
-}
-
-.coming-soon {
-  display: inline-block;
-  background: #ccc;
-  color: #555;
-  padding: 6px 12px;
-  border-radius: 5px;
-  font-style: italic;
-}
-   </style>
- </head>
- <body>
-     <div class="navbar">
-         <div class="logo-container">
-             <img src="IMG_20250603_131636.jpg" alt="Mohan" class="logo-dp" />
-             <div class="logo">MONXCODE™</div>
-         </div>
-     </div>
-
-     <main>
-         <div id="home" class="section active home-section">
-             <h2 class="fade-in">WELCOME To <span style="color:#00bcd4;">MONXCODE</span></h2>
-
-<h3 class="slide-in">
-                < BCA <span style="color:grey;">Student > </span><br />
-
-             <img src="IMG_20250602_120057 (1).jpg" alt="Mohan" />
-             <h3 class="slide-in">
-                 Hello, I'm <span style="color:#00bcd4;">Mohan</span><br />
-                 <span class="typed-text"></span><span class="cursor">|</span>
-             </h3>
-             <p class="fade-in">Founder of MONXCODE™— Developer, Hacker & Learner</p>
-             <style>
-.loader {
-  width: 80px;
-  height: 80px;
-  margin: 50px auto;
-  perspective: 600px;
-}
-
-.cube {
-  width: 60px;
-  height: 60px;
-  position: relative;
-  margin: auto;
-  transform-style: preserve-3d;
-  animation: rotateCube 3s linear infinite;
-}
-
-.cube div {
-  position: absolute;
-  width: 60px;
-  height: 60px;
-  background: #00bcd4;
-  opacity: 0.8;
-  border: 2px solid #0288d1;
-}
-
-/* Cube faces */
-.cube .front  { transform: translateZ(30px); }
-.cube .back   { transform: rotateY(180deg) translateZ(30px); }
-.cube .right  { transform: rotateY(90deg) translateZ(30px); }
-.cube .left   { transform: rotateY(-90deg) translateZ(30px); }
-.cube .top    { transform: rotateX(90deg) translateZ(30px); }
-.cube .bottom { transform: rotateX(-90deg) translateZ(30px); }
-
-@keyframes rotateCube {
-  0%   { transform: rotateX(0deg) rotateY(0deg); }
-  100% { transform: rotateX(360deg) rotateY(360deg); }
-}
-.cube {
-  animation: rotateCube 5s linear infinite;
-  transform-style: preserve-3d;
-  transition: transform 0.3s ease;
-}
-
-.cube.paused {
-  animation-play-state: paused !important;
-  cursor: grab;
-}
-
-.cube div {
-  box-shadow: 0 0 15px rgba(0, 188, 212, 0.7);
-}
-</style>
-
-<div class="loader">
-  <div class="cube">
-    <div class="front"></div>
-    <div class="back"></div>
-    <div class="right"></div>
-    <div class="left"></div>
-    <div class="top"></div>
-    <div class="bottom"></div>
+</head>
+<body data-theme="light">
+  <header>
+    <div class="logo">MONXCODE</div>
+    <nav>
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+    <div class="hamburger" onclick="toggleMenu()">☰</div>
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="#">Home</a>
+      <a href="#about">About</a>
+      <a href="#projects">Projects</a>
+      <a href="#skills">Skills</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <a href="mailto:parmarmohansingh26@gmail.com" class="cta">Let's Talk</a>
+  </header> 
+  <section class="hero">
+    <div class="hero-text">
+      <h1>Hi, I'm <span>Mohan Singh Parmar</span></h1>
+      <div class="typing-text" id="typing"></div>
+      <p>I build websites and mini tools using just my phone. Learning and creating with Acode, HTML/CSS/JS & Python.</p>
+      <div class="hero-buttons">
+        <a href="#projects" class="cta">View Projects</a>
+        <a href="https://goresume.io/resume/share/shrs_7d26334844b342fb8ede7aa6412e8177" class="cta" target="_blank">My Resume</a>
+      </div>
+      <div class="hero-socials">
+            <a href="https://github.com/monxcode" target="_blank" style="margin: 0 10px; color: inherit;">
+      <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" fill="currentColor" viewBox="0 0 16 16">
+        <path d="M8 0C3.58 0 0 3.58 0 8a8.002 8.002 0 0 0 5.47 7.59c.4.075.55-.175.55-.39v-1.3C4.02 14.09 3.5 12.81 3.5 12.81c-.36-.91-.88-1.15-.88-1.15-.72-.49.05-.48.05-.48.79.06 1.21.81 1.21.81.71 1.2 1.87.85 2.33.65.07-.52.28-.85.5-1.05-2-.22-4.1-1-4.1-4.42 0-.98.35-1.78.92-2.41-.1-.23-.4-1.14.1-2.38 0 0 .75-.24 2.45.92a8.47 8.47 0 0 1 2.22-.3c.75.003 1.5.1 2.22.3 1.7-1.16 2.45-.92 2.45-.92.5 1.24.2 2.15.1 2.38.58.63.92 1.43.92 2.41 0 3.43-2.1 4.2-4.1 4.42.29.25.54.73.54 1.47v2.18c0 .22.15.47.55.39A8.002 8.002 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+      </svg>
+    </a>
+    
+    <a href="https://linkedin.com/in/mohan-singh-parmar-%E2%9B%A8-1135b036b" target="_blank" style="margin: 0 10px; color: inherit;">
+      <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M19 0h-14c-2.76 0-5 2.24-5 5v14c0 2.75 2.24 5 5 5h14c2.75 0 5-2.25 5-5v-14c0-2.76-2.25-5-5-5zm-11 19h-3v-10h3v10zm-1.5-11.28c-.96 0-1.5-.67-1.5-1.5s.54-1.5 1.5-1.5c.96 0 1.5.67 1.5 1.5s-.54 1.5-1.5 1.5zm13.5 11.28h-3v-5.5c0-1.45-.51-2.44-1.79-2.44-.97 0-1.55.65-1.8 1.28-.09.23-.11.56-.11.89v5.77h-3s.04-9.36 0-10.33h3v1.46c.4-.62 1.11-1.5 2.7-1.5 1.98 0 3.47 1.29 3.47 4.07v6.3z"/>
+      </svg>
+    </a>
+    
+    <a href="https://instagram.com/ur.mohan_" target="_blank" style="margin: 0 10px; color: inherit;">
+      <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.333 3.608 1.308.975.975 1.246 2.242 1.308 3.608.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.062 1.366-.333 2.633-1.308 3.608-.975.975-2.242 1.246-3.608 1.308-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.366-.062-2.633-.333-3.608-1.308-.975-.975-1.246-2.242-1.308-3.608C2.175 15.647 2.163 15.267 2.163 12s.012-3.584.07-4.85c.062-1.366.333-2.633 1.308-3.608C4.516 2.496 5.783 2.225 7.149 2.163 8.415 2.105 8.796 2.163 12 2.163zm0-2.163C8.741 0 8.332.012 7.053.07c-1.675.075-3.255.648-4.472 1.865C.363 3.152-.21 4.732-.285 6.407-.343 7.686-.355 8.095-.355 12s.012 4.314.07 5.593c.075 1.675.648 3.255 1.865 4.472 1.217 1.217 2.797 1.79 4.472 1.865 1.279.058 1.688.07 5.593.07s4.314-.012 5.593-.07c1.675-.075 3.255-.648 4.472-1.865 1.217-1.217 1.79-2.797 1.865-4.472.058-1.279.07-1.688.07-5.593s-.012-4.314-.07-5.593c-.075-1.675-.648-3.255-1.865-4.472-1.217-1.217-2.797-1.79-4.472-1.865C15.314.012 14.905 0 12 0zM12 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zm0 10.162a3.999 3.999 0 1 1 0-7.998 3.999 3.999 0 0 1 0 7.998zm6.406-11.845a1.44 1.44 0 1 0 0 2.88 1.44 1.44 0 0 0 0-2.88z"/>
+      </svg>
+    </a>
+  </div>
+      </div>
+    </div>
+    <div class="hero-img">
+      <img src="IMG_20250602_120057 (1).jpg" alt="Mohan Singh Parmar">
+    </div>
+    
+  </section>
+  
+  <!-- About Me Section with Slide-Up Only on Scroll --><section id="about" class="about-section reveal-slide" style="padding: 60px 10%; text-align: center;">
+  <h2 style="font-size: 32px; margin-bottom: 20px; color: #4f46e5;">About Mohan</h2>  <div style="max-width: 900px; margin: auto; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 40px;">
+    <div style="flex: 1; min-width: 250px; text-align: center;">
+      <img src="profile.jpg" alt="Mohan Singh Parmar" class="slide-img" style="width: 250px; height: 250px; border-radius: 50%; object-fit: cover; box-shadow: 0 8px 25px rgba(0,0,0,0.1);">
+    </div>
+    <div style="flex: 2; min-width: 280px; text-align: left;">
+  <p style="font-size: 16px; line-height: 1.8; color: var(--text);">
+    I'm <strong>Mohan Singh Parmar</strong>, a passionate BCA student and the proud founder of <strong>MONXCODE</strong>. I create websites and interactive projects entirely from my mobile using Acode and Pydroid 3. My focus is on self-learning, creative UI, clean design, and practical development. <br/><br/>
+    I believe in growing through real projects and exploring the world of web one line of code at a time.
+  </p>
+  <div style="margin-top: 20px; font-size: 15px; line-height: 2;">
+    <div>🎓 BCA Student, Vidhya Bhavan, Udaipur</div>
+    <div>📱 Mobile Developer (Acode + Pydroid 3)</div>
+    <div>💡 Self Learner & UI Enthusiast</div>
+    <div>🌍 From Kumbhalgarh, Rajasthan</div>
   </div>
 </div>
-    </section>
+  </div>
+</section>
+<!-- Slide-Up CSS -->
 <style>
-  svg, svg * {
-    color-scheme: only light; /* ✅ Dark mode effect disable */
-    forced-color-adjust: none; /* ✅ Browser को मजबूर करो कि कुछ auto-adjust ना करे */
+  .reveal-slide {
+    opacity: 0;
+    transform: translateY(80px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal-slide.active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .slide-img {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 0.8s ease-out;
+  }
+  .slide-img.active {
+    opacity: 1;
+    transform: translateY(0);
   }
 </style>
- <h3 class="slide-in">
-      ❣️< BEST<span style="color:red;">SKILLS >❣️ </span><br />
- <svg width="100%" height="auto" viewBox="0 0 1000 300" xmlns="http://www.w3.org/2000/svg" style="display:block;margin:auto;">    <!-- Title -->    <text x="50%" y="50" text-anchor="middle" font-size="42" font-family="Helvetica, sans-serif" fill="#111">  
-    
-  </text>    <!-- Cyber Security -->    <g transform="translate(80,100)">  
-    <circle cx="80" cy="60" r="60" fill="#e0f7ff"/>  
-    <g transform="translate(40,20) scale(3.4)">  
-      <path d="M12 21a12 12 0 0 1 -8.5 -15a12 12 0 0 0 8.5 -3a12 12 0 0 0 8.5 3a12 12 0 0 1 -.078 7.024" fill="none" stroke="#00ccff" stroke-width="1.5"/>  
-      <path d="M20 21l2 -2l-2 -2" fill="none" stroke="#00ccff" stroke-width="1.5"/>  
-      <path d="M17 17l-2 2l2 2" fill="none" stroke="#00ccff" stroke-width="1.5"/>  
-    </g>  
-    <text x="80" y="145" text-anchor="middle" font-size="14" fill="#333">CYBER SECURITY</text>  
-  </g>    <!-- Python -->    <g transform="translate(280,100)">  
-    <circle cx="120" cy="60" r="60" fill="#e0f7ff"/>  
-    <g transform="translate(75,15) scale(2.9)">  
-      <path fill-rule="evenodd" clip-rule="evenodd" d="M13.0164 2C10.8193 2 9.03825 3.72453 9.03825 5.85185V8.51852H15.9235V9.25926H5.97814C3.78107 9.25926 2 10.9838 2 13.1111L2 18.8889C2 21.0162 3.78107 22.7407 5.97814 22.7407H8.27322V19.4815C8.27322 17.3542 10.0543 15.6296 12.2514 15.6296H19.5956C21.4547 15.6296 22.9617 14.1704 22.9617 12.3704V5.85185C22.9617 3.72453 21.1807 2 18.9836 2H13.0164ZM12.0984 6.74074C12.8589 6.74074 13.4754 6.14378 13.4754 5.40741C13.4754 4.67103 12.8589 4.07407 12.0984 4.07407C11.3378 4.07407 10.7213 4.67103 10.7213 5.40741C10.7213 6.14378 11.3378 6.74074 12.0984 6.74074Z" fill="url(#paint0)"/>  
-      <path fill-rule="evenodd" clip-rule="evenodd" d="M18.9834 30C21.1805 30 22.9616 28.2755 22.9616 26.1482V23.4815L16.0763 23.4815L16.0763 22.7408L26.0217 22.7408C28.2188 22.7408 29.9998 21.0162 29.9998 18.8889V13.1111C29.9998 10.9838 28.2188 9.25928 26.0217 9.25928L23.7266 9.25928V12.5185C23.7266 14.6459 21.9455 16.3704 19.7485 16.3704L12.4042 16.3704C10.5451 16.3704 9.03809 17.8296 9.03809 19.6296L9.03809 26.1482C9.03809 28.2755 10.8192 30 13.0162 30H18.9834ZM19.9015 25.2593C19.1409 25.2593 18.5244 25.8562 18.5244 26.5926C18.5244 27.329 19.1409 27.9259 19.9015 27.9259C20.662 27.9259 21.2785 27.329 21.2785 26.5926C21.2785 25.8562 20.662 25.2593 19.9015 25.2593Z" fill="url(#paint1)"/>  
-    </g>  
-    <text x="120" y="145" text-anchor="middle" font-size="14" fill="#333">PYTHON PROGRAMING</text>  
-  </g>    <!-- Coding -->    <g transform="translate(500,100)">  
-    <circle cx="140" cy="60" r="60" fill="#e0f7ff"/> 
-    <text x="140" y="75" text-anchor="middle" font-size="48" fill="#333" font-family="Courier, monospace">&lt;/&gt;</text>  
-    <text x="140" y="145" text-anchor="middle" font-size="14" fill="#333">CODDER & DEVELOPER</text>  
-  </g>    <!-- Terminal -->    <g transform="translate(710,100)">  
-    <circle cx="150" cy="60" r="60" fill="black"/>  
-    <text x="150" y="75" text-anchor="middle" font-size="48" fill="white" font-family="Courier, monospace">&gt;_</text>  
-    <text x="150" y="145" text-anchor="middle" font-size="14" fill="#ccc">LINUX SHELL</text>  
-      <text x="150" y="145" text-anchor="middle" font-size="14" fill="#333">LINUX SHELL</text>  
-  <!-- Gradients -->  
-  <defs>  
-    <linearGradient id="paint0" x1="12.4809" y1="2" x2="12.4809" y2="22.7407" gradientUnits="userSpaceOnUse">  
-      <stop stop-color="#327EBD"/>  
-      <stop offset="1" stop-color="#1565A7"/>  
-    </linearGradient>  
-    <linearGradient id="paint1" x1="19.519" y1="9.25928" x2="19.519" y2="30" gradientUnits="userSpaceOnUse">  
-      <stop stop-color="#FFDA4B"/>  
-      <stop offset="1" stop-color="#F9C600"/>  
-    </linearGradient>  
-  </defs>  
-</svg>  
-</div>
-              <div id="about" class="section">
-           
-            <h2><🚀Project Showcase></h2>
-<h3 class="slide-in">
-<section id="projects">
-  <div class="projects-container">
- 
-    <div class="project-card">
-      <h3>Modern Calculator</h3>
-      <p>A simple, stylish calculator.</p>
-      <a href="https://monxcode.github.io/Modern-Calculator/" target="_blank">🔗 View Project</a>
+<!-- Scroll Trigger Script -->
+<script>
+  function revealOnScroll() {
+    document.querySelectorAll('.reveal-slide, .slide-img').forEach((el) => {
+      const top = el.getBoundingClientRect().top;
+      if (top < window.innerHeight - 60) el.classList.add('active');
+    });
+  }
+  window.addEventListener('scroll', revealOnScroll);
+  window.addEventListener('load', revealOnScroll);
+</script>
+<!-- Skills Section with Accordion Style -->
+<section class="skills reveal-slide" id="skills" style="padding: 60px 10%;">
+  <h2 style="font-size: 32px; text-align: center; margin-bottom: 40px; color: #4f46e5;">My Skills</h2>  <div class="accordion-container" style="max-width: 700px; margin: auto;">
+    <div class="accordion">
+      <div class="accordion-item">
+        <button class="accordion-title">HTML</button>
+        <div class="accordion-content">Structure of all websites. I use HTML5 to create well-organized and accessible web pages.</div>
+      </div>
+      <div class="accordion-item">
+        <button class="accordion-title">CSS</button>
+        <div class="accordion-content">Styling with responsiveness. I style using Flexbox, Grid, animations, and media queries.</div>
+      </div>
+      <div class="accordion-item">
+        <button class="accordion-title">JavaScript (Basics)</button>
+        <div class="accordion-content">I use JS to create interactions like toggles, calculators, games, and form validation.</div>
+      </div>
+      <div class="accordion-item">
+        <button class="accordion-title">Python (Core)</button>
+        <div class="accordion-content">For logic building and backend basics. I also build GUI apps using Tkinter.</div>
+      </div>
+      <div class="accordion-item">
+        <button class="accordion-title">Tkinter</button>
+        <div class="accordion-content">I use Tkinter to build desktop-based GUI projects like calculators and converters.</div>
+      </div>
+      <div class="accordion-item">
+        <button class="accordion-title">Pygame</button>
+        <div class="accordion-content">For making 2D games like shooter or tic-tac-toe directly from mobile using Pydroid 3.</div>
+      </div>
+      <div class="accordion-item">
+        <button class="accordion-title">GitHub Pages</button>
+        <div class="accordion-content">I deploy websites for free using GitHub Pages. Portfolio and games are live online.</div>
+      </div>
+      <div class="accordion-item">
+        <button class="accordion-title">Acode App</button>
+        <div class="accordion-content">A mobile code editor. I build, test, and style websites directly from my phone.</div>
+      </div>
+      <div class="accordion-item">
+        <button class="accordion-title">Pydroid 3</button>
+        <div class="accordion-content">A mobile IDE for Python. I run and test GUI and logic-based programs with it.</div>
+      </div>
     </div>
-
-  <div class="project-card">
-  <h3>Tic-tac-Toe-</h3>
-  <p>Tic Tac Toe game featuring AI gameplay, celebration animations, PvP mode.</p>
-  <a href="https://monxcode.github.io/Tic-tac-Toe-/" target="_blank">🔗Play Game</a>
-</div>
-
-    <div class="project-card">
-      <h3>Coming Soon</h3>
-      <p>More projects will be added here.</p>
-      <span class="coming-soon">🔒 Coming Soon</span>
-    </div>
-
-    <div class="project-card">
-      <h3>Coming Soon</h3>
-      <p>More projects will be added here.</p>
-      <span class="coming-soon">🔒 Coming Soon</span>
-    </div>
-
   </div>
 </section>
-         </div>
-    </div> 
-  </div>
-</section>
-         <div id="work" class="section">
-             <h2><🛠️ My Goals></h2>
-<h3 class="slide-in">
-             <div class="accordion">
-                 <div class="accordion-item">
-                     <button class="accordion-header">Full-Stack Web Development</button>
-                     <div class="accordion-body">
-                         <p>Responsive, secure, and scalable websites using HTML, CSS, JS, Python, and more.</p>
-                     </div>
-                 </div>
-                 <div class="accordion-item">
-                     <button class="accordion-header">Ethical Hacking & Cybersecurity</button>
-                     <div class="accordion-body">
-                         <p>Protecting systems and educating clients through penetration testing and audits.</p>
-                     </div>
-                 </div>
-                 <div class="accordion-item">
-                     <button class="accordion-header">Mobile App Development</button>
-                     <div class="accordion-body">
-                         <p>Creating Android apps with modern UI/UX using tools like Flutter and React Native.</p>
-                     </div>
-                 </div>
-                 <div class="accordion-item">
-                     <button class="accordion-header">Responsive Website Design</button>
-                     <div class="accordion-body">
-                         <p>Beautiful, mobile-friendly designs optimized for performance and accessibility.</p>
-                     </div>
-                 </div>
-                 <div class="accordion-item">
-                     <button class="accordion-header">Freelance Project Work</button>
-                     <div class="accordion-body">
-                         <p>Available for freelance projects, consulting, and private development gigs.</p>
-                     </div>
-                 </div>
-<!-- 🔔 Smooth Red Notice Accordion -->
 <style>
-  .red-accordion {
-    border-radius: 8px;
-    margin: 20px 0;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  .accordion-item {
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    margin-bottom: 10px;
     overflow: hidden;
+    background: var(--card);
     transition: all 0.3s ease;
   }
-
-  .red-accordion-header {
-    background-color: red;
-    color: white;
-    padding: 15px 20px;
-    font-size: 18px;
-    cursor: pointer;
-    border: none;
+  .accordion-title {
     width: 100%;
+    padding: 15px 20px;
+    font-size: 16px;
+    font-weight: 600;
+    background: #f3f3f3;
+    color: #333;
+    border: none;
     text-align: left;
+    cursor: pointer;
     outline: none;
-    transition: background 0.3s ease;
   }
-
-  .red-accordion-header:hover {
-    background-color: darkred;
+  [data-theme="dark"] .accordion-title {
+    background: #252525;
+    color: #eee;
   }
-
-  .red-accordion-body {
-    background-color: #ffcccc;
-    color: black;
-    padding: 0 20px;
+  .accordion-content {
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.5s ease, padding 0.3s ease;
-    opacity: 0;
+    background: var(--bg);
+    color: var(--text);
+    padding: 0 20px;
+    transition: max-height 0.3s ease, padding 0.3s ease;
   }
-
-  .red-accordion.active .red-accordion-body {
+  .accordion-item.active .accordion-content {
+    max-height: 300px;
     padding: 15px 20px;
-    max-height: 500px; /* adjust as per content */
-    opacity: 1;
   }
 </style>
-
-<div class="red-accordion">
-  <button class="red-accordion-header">🔔 Notice</button>
-  <div class="red-accordion-body">
-    <p>This is a demo website created for personal learning and portfolio purposes.<br>
-    The content shared here is limited and may not fully represent my professional skills or background.<br>
-    I am continuously learning and improving.</p>
-    <p>✨Thank you for visiting!💌</p>
-  </div>
-</div>
-
 <script>
-  document.querySelectorAll('.red-accordion-header').forEach(button => {
-    button.addEventListener('click', () => {
-      const accordion = button.parentElement;
-      accordion.classList.toggle('active');
+  const accordions = document.querySelectorAll('.accordion-item');
+  accordions.forEach((item) => {
+    item.querySelector('.accordion-title').addEventListener('click', () => {
+      accordions.forEach((el) => {
+        if (el !== item) el.classList.remove('active');
+      });
+      item.classList.toggle('active');
     });
   });
 </script>
-             </div>
-         </div>
+<!-- Projects Section with Animated Cards --><section id="projects" class="reveal-slide" style="padding: 60px 10%;">
+  <h2 style="font-size: 32px; text-align: center; margin-bottom: 40px; color: #4f46e5;">My Projects</h2>  <div class="projects-container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px;"><div class="project-card animated-card">
+  <h3>Modern Calculator</h3>
+  <p>Responsive calculator built using HTML, CSS & JavaScript directly on mobile.</p>
+  <a href="https://mohanxcode.github.io/Modern-Calculator/" target="_blank">🔗 View Live</a>
+</div>
 
-         <div id="contact" class="section contact-section">
-                 
-             <h2 class="section-title">📬</h2>
-         <section id="review" class="contact-section">
-  <style>
-    .contact-section {
-      padding: 80px 20px;
-      background: #ADD8E6;
-    }
+<div class="project-card animated-card">
+  <h3>Smart Tic Tac Toe</h3>
+  <p>2-player & AI mode Tic Tac Toe game built with sound & animations using JS.</p>
+  <a href="https://monxcode.github.io/Tic-tac-Toe-/" target="_blank">🎮 Play Game</a>
+</div>
 
-    .contact-form {
-      max-width: 500px;
-      margin: auto;
-      background: #fff;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.1);
-      position: relative;
-      overflow: hidden;
-      transition: box-shadow 0.4s ease, transform 0.4s ease;
-    }
+<div class="project-card animated-card">
+  <h3>My Resume</h3>
+  <p>Live hosted resume made with GoResume.io. Clean, professional, and mobile-friendly.</p>
+  <a href="https://goresume.io/resume/share/shrs_7d26334844b342fb8ede7aa6412e8177" target="_blank">📄 View Resume</a>
+</div>
 
-    .contact-form.glow-effect::after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 500px;
-      height: 500px;
-      background: radial-gradient(circle, rgba(255,175,238,0.25) 0%, rgba(255,255,255,0) 80%);
-      transform: translate(-50%, -50%) scale(1);
-      opacity: 0;
-      animation: glowPop 1.2s ease-out forwards;
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    @keyframes glowPop {
-      0% {
-        opacity: 1;
-        transform: translate(-50%, -50%) scale(0.5);
-      }
-      100% {
-        opacity: 0;
-        transform: translate(-50%, -50%) scale(2);
-      }
-    }
-
-    .contact-form:hover {
-      box-shadow: 0 0 25px rgba(255, 105, 180, 0.3);
-      transform: scale(1.03);
-    }
-
-    .contact-section h2 {
-      text-align: center;
-      font-size: 28px;
-      color: #222;
-      margin-bottom: 10px;
-    }
-
-    .star-rating-box {
-      text-align: center;
-      font-size: 18px;
-      color: #ff9800;
-      margin-bottom: 20px;
-    }
-
-    .star-rating-box .star {
-      font-size: 22px;
-      color: gold;
-    }
-
-    .contact-form input,
-    .contact-form textarea {
-      width: 100%;
-      padding: 12px;
-      margin-bottom: 15px;
-      border: 2px solid #ddd;
-      border-radius: 8px;
-      font-size: 16px;
-      outline: none;
-      transition: 0.3s;
-      position: relative;
-      z-index: 1;
-    }
-
-    .contact-form input:focus,
-    .contact-form textarea:focus {
-      border-color: #007bff;
-      background: #f0faff;
-    }
-
-    .rating {
-      margin: 10px 0 10px;
-    }
-
-    .stars {
-      direction: rtl;
-      display: flex;
-      justify-content: center;
-      gap: 5px;
-    }
-
-    .stars input[type="radio"] {
-      display: none;
-    }
-
-    .stars label {
-      font-size: 30px;
-      color: #ccc;
-      cursor: pointer;
-      transition: color 0.3s;
-    }
-
-    .stars input[type="radio"]:checked ~ label,
-    .stars label:hover,
-    .stars label:hover ~ label {
-      color: gold;
-      text-shadow: 0 0 8px #ffc107;
-    }
-
-    .rating-message {
-      text-align: center;
-      font-weight: bold;
-      color: #444;
-      margin-top: 10px;
-      min-height: 24px;
-      font-style: italic;
-    }
-
-    .contact-form button {
-      width: 100%;
-      padding: 12px;
-      font-size: 16px;
-      background: linear-gradient(to right, #ff4081, #ff80ab);
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      position: relative;
-      z-index: 1;
-    }
-
-    .contact-form button:hover {
-      background: linear-gradient(to right, #ff1744, #ff4081);
-      transform: scale(1.05);
-      box-shadow: 0 0 12px rgba(255, 64, 129, 0.5);
-    }
-
-    @keyframes fadeIn {
-      from {opacity: 0; transform: translateY(20px);}
-      to {opacity: 1; transform: translateY(0);}
-    }
-  </style>
-
-  <h2 class="section-title">📨Your FeedBake💌</h2>
-  <div class="star-rating-box">
-    <span class="star">✭✭✭✭☆</span> 4.3
   </div>
+</section>
+<style>
+  .project-card {
+    background: var(--card);
+    border-radius: 12px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+    padding: 20px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .project-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.08);
+  }
+  .project-card h3 {
+    margin-bottom: 10px;
+    color: var(--text);
+  }
+  .project-card p {
+    font-size: 15px;
+    color: var(--text);
+    margin-bottom: 15px;
+  }
+  .project-card a {
+    display: inline-block;
+    text-decoration: none;
+    font-weight: 500;
+    color: #4f46e5;
+    padding: 8px 16px;
+    border: 2px solid #4f46e5;
+    border-radius: 25px;
+    transition: 0.3s;
+  }
+  .project-card a:hover {
+    background: #4f46e5;
+    color: white;
+  }
+</style>
 
-  <form action="https://formspree.io/f/mzzggyjo" method="POST" class="contact-form" id="reviewForm">
-    <input type="text" name="name" placeholder="Your Name" required>
-    <input type="email" name="email" placeholder="Your Email" required>
-    <textarea name="message" rows="5" placeholder="Write your feedback..." required></textarea>
+<section class="why-hire-me" id="whyhire" style="padding: 60px 10%; background: var(--card);">
+  <h2 style="text-align:center; font-size: 32px; margin-bottom: 40px;">Why Hire Me?</h2>
+  <div class="reasons-grid" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+    <div class="reason-box" style="background:#f5f5f5; border-radius:12px; padding:20px; box-shadow:0 2px 10px rgba(0,0,0,0.05); transition:0.3s;">
+      <strong>📚 Self-Taught Developer</strong>
+      <p style="margin-top:10px; font-size:14px;">Without any formal course, I learned HTML, CSS, JS, and Python and applied them to real projects.</p>
+    </div>
+    <div class="reason-box" style="background:#f5f5f5; border-radius:12px; padding:20px; box-shadow:0 2px 10px rgba(0,0,0,0.05); transition:0.3s;">
+      <strong>🎨 Clean & Modern Design Sense</strong>
+      <p style="margin-top:10px; font-size:14px;">I focus on neat, responsive, and visually engaging design for every project.</p>
+    </div>
+    <div class="reason-box" style="background:#f5f5f5; border-radius:12px; padding:20px; box-shadow:0 2px 10px rgba(0,0,0,0.05); transition:0.3s;">
+      <strong>🔁 Structured & Reusable Code</strong>
+      <p style="margin-top:10px; font-size:14px;">My code is clean, organized, and easy to reuse for future development or updates.</p>
+    </div>
+    <div class="reason-box" style="background:#f5f5f5; border-radius:12px; padding:20px; box-shadow:0 2px 10px rgba(0,0,0,0.05); transition:0.3s;">
+      <strong>📅 Consistent & Focused Learner</strong>
+      <p style="margin-top:10px; font-size:14px;">I practice daily, stay focused, and constantly improve by working on new challenges.</p>
+    </div>
+    <div class="reason-box" style="background:#f5f5f5; border-radius:12px; padding:20px; box-shadow:0 2px 10px rgba(0,0,0,0.05); transition:0.3s;">
+      <strong>📂 GitHub Projects + Live Resume</strong>
+      <p style="margin-top:10px; font-size:14px;">All my projects are live on GitHub with an accessible resume for anyone to review.</p>
+    </div>
+  </div>
+</section>
 
-    <div class="rating">
-      <label style="display:block; text-align: center; font-weight: bold; margin-bottom: 10px;">Your Rating:</label>
-      <div class="stars" onclick="showRatingMessage()">
-        <input type="radio" id="star5" name="rating" value="5" required><label for="star5">★</label>
-        <input type="radio" id="star4" name="rating" value="4"><label for="star4">★</label>
-        <input type="radio" id="star3" name="rating" value="3"><label for="star3">★</label>
-        <input type="radio" id="star2" name="rating" value="2"><label for="star2">★</label>
-        <input type="radio" id="star1" name="rating" value="1"><label for="star1">★</label>
-      </div>
-      <div class="rating-message" id="ratingMessage"></div>
+<script>
+  const observerWhy = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        entry.target.classList.add('reveal');
+      }
+    });
+  }, { threshold: 0.2 });
+
+  document.querySelectorAll('.reason-box').forEach(box => {
+    box.classList.add('reveal-init');
+    observerWhy.observe(box);
+  });
+</script>
+<style>
+  .reveal-init {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.6s ease-out;
+  }
+  .reveal {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+  }
+  [data-theme="dark"] .reason-box {
+    background: #1f1f1f;
+    color: #eee;
+  }
+</style>
+<section id="testimonials" style="padding: 60px 10%; background: var(--card);">
+  <h2 style="text-align:center; font-size: 32px; margin-bottom: 40px;">What People Say</h2>
+  <div class="testimonial-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
+
+    <div class="testimonial-box">
+      <p>“Mohan’s creativity with minimal tools is simply brilliant. He brings simplicity to life.”</p>
+      <h4>— Rahul Verma 🇮🇳</h4>
+    </div>
+    <div class="testimonial-box">
+      <p>“I saw his Tic Tac Toe game, and I was surprised it was made entirely on mobile!”</p>
+      <h4>— Ananya Mishra 🇮🇳</h4>
+    </div>
+    <div class="testimonial-box">
+      <p>“MONXCODE shows that young developers can lead with design and passion.”</p>
+      <h4>— David Lee 🌐</h4>
+    </div>
+    <div class="testimonial-box">
+      <p>“One of the finest student portfolios I’ve come across. Simple and inspiring.”</p>
+      <h4>— Priyanshu Meena 🇮🇳</h4>
+    </div>
+    <div class="testimonial-box">
+      <p>“Clean code, creative ideas, and consistent delivery — that’s Mohan in 3 words.”</p>
+      <h4>— Sneha Kapoor 🇮🇳</h4>
+    </div>
+    <div class="testimonial-box">
+      <p>“His portfolio made me smile — it's so full of effort and clarity.”</p>
+      <h4>— Julia Smith 🌐</h4>
+    </div>
+    <div class="testimonial-box">
+      <p>“You won’t believe this site is built on mobile until you read his story.”</p>
+      <h4>— Deepak Chauhan 🇮🇳</h4>
+    </div>
+    <div class="testimonial-box">
+      <p>“A budding developer with great attention to detail and user experience.”</p>
+      <h4>— Riya Bansal 🇮🇳</h4>
+    </div>
+    <div class="testimonial-box">
+      <p>“I’m confident Mohan will be a star in tech very soon.”</p>
+      <h4>— Carlos Mendes 🌐</h4>
+    </div>
+    <div class="testimonial-box">
+      <p>“I was impressed by the MONXCODE identity and the confidence in his brand.”</p>
+      <h4>— Tanvi Sharma 🇮🇳</h4>
+    </div>
+    <div class="testimonial-box">
+      <p>“His code speaks louder than any resume — direct, creative, and clean.”</p>
+      <h4>— Maxime DuPont 🌐</h4>
     </div>
 
-    <button type="submit">Submit Review</button>
+  </div>
+  <div style="text-align: center; margin-top: 40px;">
+    <button onclick="showPasswordPrompt()" style="padding: 10px 20px; border-radius: 25px; background: #4f46e5; color: white; border: none; cursor: pointer;">+ Add Your Testimonial</button>
+  </div>
+  <p style="font-size: 12px; color: #999; margin-top: 20px; text-align: center;">
+  🛡️ This section is <strong>only for client submissions</strong>. Public opinions are not accepted.
+</p>
+  <div id="testimonialForm" style="display: none; max-width: 500px; margin: 30px auto;">
+    <input type="text" id="nameInput" placeholder="Your Name" style="width: 100%; padding: 12px; margin-bottom: 10px; border-radius: 8px; border: 1px solid #ccc;">
+    <textarea id="msgInput" placeholder="Your Message" rows="4" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #ccc;"></textarea>
+
+    <p style="font-size: 13px; margin-top: 10px; color: gray;">Note: This is a secured client-only form. Submissions are not public.</p>
+  </div>
+</section>
+
+<style>
+  .testimonial-box {
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    font-size: 15px;
+    line-height: 1.6;
+    transition: 0.3s;
+  }
+  .testimonial-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  }
+  .testimonial-box h4 {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #4f46e5;
+  }
+  [data-theme="dark"] .testimonial-box {
+    background: #1f1f1f;
+    color: #ddd;
+  }
+</style>
+<script>
+  function showPasswordPrompt() {
+    const pass = prompt("Enter Admin Password:");
+    if(pass === "monxadmin") {
+      document.getElementById("testimonialForm").style.display = "block";
+    } else {
+      alert("❌ Incorrect password. Access denied.");
+    }
+  }
+</script>
+<!-- ===== CONTACT SECTION ===== -->
+<section class="contact" id="contact" style="padding: 60px 10%; background: var(--card);">
+  <h2 style="text-align: center; font-size: 32px; margin-bottom: 40px;">Let's Connect</h2>
+<p style="text-align: center; margin-top: 20px; font-size: 15px; color: gray;">
+  <svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" fill="#4f46e5" viewBox="0 0 24 24" style="vertical-align: middle; margin-right: 6px;">
+    <path d="M12 13.5 2 6.75V18q0 .825.588 1.412Q3.175 20 4 20h16q.825 0 1.412-.588Q22 18.825 22 18V6.75Zm0-2.25L21.95 6H2.05Z"/>
+  </svg>
+  <a href="mailto:parmarmohansingh26@gmail.com" style="color: #4f46e5; text-decoration: none; font-weight: 500;">
+    parmarmohansingh26@gmail.com
+  </a>
+</p>
+  <form action="https://formspree.io/f/mzzggyjo" method="POST"
+        style="max-width: 500px; margin: auto; display: flex; flex-direction: column; gap: 15px;"
+        class="reveal">
+
+    <input type="text" name="name" placeholder="Your Name" required
+           style="padding: 12px; border-radius: 8px; border: 1px solid #ccc; background: var(--bg); color: var(--text);" />
+
+    <input type="email" name="email" placeholder="Your Email" required
+           style="padding: 12px; border-radius: 8px; border: 1px solid #ccc; background: var(--bg); color: var(--text);" />
+
+    <textarea name="message" rows="4" placeholder="Your Message" required
+              style="padding: 12px; border-radius: 8px; border: 1px solid #ccc; background: var(--bg); color: var(--text);"></textarea>
+
+    <button type="submit"
+            style="background: #4f46e5; color: white; padding: 12px; border: none; border-radius: 25px; font-weight: 500; cursor: pointer;">
+      Send Message
+    </button>
+
+    <p style="font-size: 13px; color: gray; text-align: center;">
+      Your message will be sent securely to my inbox via Formspree.
+    </p>
+
+
+    </p>
   </form>
+</section>
 
   <script>
-    // Show rating message on selection
-    function showRatingMessage() {
-      const rating = document.querySelector('input[name="rating"]:checked');
-      const message = document.getElementById("ratingMessage");
-      if (rating) {
-        switch (rating.value) {
-          case "5":
-            message.textContent = "Thank you for the 5-star review!";
-            break;
-          case "4":
-            message.textContent = "Thanks! We're glad you liked it!";
-            break;
-          case "3":
-            message.textContent = "Appreciated! We’ll try to improve.";
-            break;
-          case "2":
-            message.textContent = "Thanks for your honesty. We'll work on it.";
-            break;
-          case "1":
-            message.textContent = "Sorry to hear that. Let us do better.";
-            break;
-        }
+    const roles = ["Web Developer", "BCA Student", "Python Learner", "UI Designer"];
+    let roleIndex = 0, charIndex = 0;
+    function typeRole() {
+      const typingDiv = document.getElementById("typing");
+      if (charIndex < roles[roleIndex].length) {
+        typingDiv.textContent += roles[roleIndex].charAt(charIndex);
+        charIndex++;
+        setTimeout(typeRole, 100);
+      } else {
+        setTimeout(() => {
+          typingDiv.textContent = "";
+          charIndex = 0;
+          roleIndex = (roleIndex + 1) % roles.length;
+          typeRole();
+        }, 1200);
       }
     }
-
-    document.querySelectorAll('input[name="rating"]').forEach(radio => {
-      radio.addEventListener('change', showRatingMessage);
-    });
-
-    // Glow effect on any click inside form
-    const form = document.getElementById('reviewForm');
-    form.addEventListener('click', function () {
-      form.classList.add('glow-effect');
-      setTimeout(() => {
-        form.classList.remove('glow-effect');
-      }, 1200);
-    });
+    typeRole();
+    function toggleMenu() {
+      document.getElementById("mobileMenu").classList.toggle("show");
+    }
+    
   </script>
-</section>
-             </div>
-         </div>
-     </main>
-
-     <div class="controls">
-         <button id="prevBtn" title="Previous Section">&larr; Prev</button>
-         <button id="nextBtn" title="Next Section">Next &rarr;</button>
-     </div>
-
-     <script>
-         'use strict'; // Enable strict mode for better error checking
-
-         // Sections Array & Index
-         const sections = Array.from(document.querySelectorAll('.section'));
-         let currentIndex = 0;
-
-         // Show section by index
-         function showSection(index) {
-             if(index < 0 || index >= sections.length) return;
-             // Start background animation on page switch
-             document.body.classList.add('page-switching');
-
-             // Remove active from all sections
-             sections.forEach(sec => sec.classList.remove('active'));
-             // Add active to current section
-             sections[index].classList.add('active');
-
-             // Update buttons disabled state
-             document.getElementById('prevBtn').disabled = (index === 0);
-             document.getElementById('nextBtn').disabled = (index === sections.length - 1);
-
-             // Update currentIndex
-             currentIndex = index;
-
-             // After animation time, remove background animation
-             setTimeout(() => {
-                 document.body.classList.remove('page-switching');
-             }, 1000);
-         }
-
-         // Next and Prev button event listeners
-         document.getElementById('prevBtn').addEventListener('click', () => {
-             showSection(currentIndex - 1);
-         });
-         document.getElementById('nextBtn').addEventListener('click', () => {
-             showSection(currentIndex + 1);
-         });
-
-         // Keyboard arrow navigation
-         window.addEventListener('keydown', (e) => {
-             if(e.key === 'ArrowRight') {
-                 if(currentIndex < sections.length - 1) showSection(currentIndex + 1);
-             }
-             else if(e.key === 'ArrowLeft') {
-                 if(currentIndex > 0) showSection(currentIndex - 1);
-             }
-         });
-
-         // Accordion functionality for Work section
-         const accordions = document.querySelectorAll('.accordion-header');
-         accordions.forEach(header => {
-             header.addEventListener('click', () => {
-                 const item = header.parentElement;
-                 // Close other open accordion items
-                 document.querySelectorAll('.accordion-item.active').forEach(openItem => {
-                     if(openItem !== item) {
-                         openItem.classList.remove('active');
-                     }
-                 });
-                 // Toggle current accordion item
-                 item.classList.toggle('active');
-             });
-         });
-
-         // Typing Animation Script (Ensured it runs after content is loaded)
-         document.addEventListener('DOMContentLoaded', () => {
-             const typedTextElement = document.querySelector(".typed-text");
-             if (typedTextElement) { // Check if the element exists
-                 const texts = ["Phone", "Tools", "Technology", "Python Dev", "Security Expert"];
-                 let count = 0;
-                 let index = 0;
-                 let currentText = "";
-                 let letter = "";
-
-                 (function type() {
-                     if (count === texts.length) count = 0;
-                     currentText = texts[count];
-                     letter = currentText.slice(0, ++index);
-
-                     typedTextElement.textContent = letter;
-
-                     if (letter.length === currentText.length) {
-                         count++;
-                         index = 0;
-                         setTimeout(type, 1000); // pause after full word
-                     } else {
-                         setTimeout(type, 100);
-                     }
-                 })();
-             }
-             // Initialize the first section
-             showSection(0);
-         });
-     </script>
+  <!-- ===== FOOTER SECTION ===== -->
+<footer style="background: var(--card); padding: 40px 10%; text-align: center; font-size: 14px; color: var(--text); border-top: 1px solid #e5e5e5;">
+  
+  <div style="margin-bottom: 20px;">
+    <a href="https://github.com/monxcode" target="_blank" style="margin: 0 10px; color: inherit;">
+      <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" fill="currentColor" viewBox="0 0 16 16">
+        <path d="M8 0C3.58 0 0 3.58 0 8a8.002 8.002 0 0 0 5.47 7.59c.4.075.55-.175.55-.39v-1.3C4.02 14.09 3.5 12.81 3.5 12.81c-.36-.91-.88-1.15-.88-1.15-.72-.49.05-.48.05-.48.79.06 1.21.81 1.21.81.71 1.2 1.87.85 2.33.65.07-.52.28-.85.5-1.05-2-.22-4.1-1-4.1-4.42 0-.98.35-1.78.92-2.41-.1-.23-.4-1.14.1-2.38 0 0 .75-.24 2.45.92a8.47 8.47 0 0 1 2.22-.3c.75.003 1.5.1 2.22.3 1.7-1.16 2.45-.92 2.45-.92.5 1.24.2 2.15.1 2.38.58.63.92 1.43.92 2.41 0 3.43-2.1 4.2-4.1 4.42.29.25.54.73.54 1.47v2.18c0 .22.15.47.55.39A8.002 8.002 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+      </svg>
+    </a>
+    <a href="https://linkedin.com/in/mohan-singh-parmar-%E2%9B%A8-1135b036b" target="_blank" style="margin: 0 10px; color: inherit;">
+      <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M19 0h-14c-2.76 0-5 2.24-5 5v14c0 2.75 2.24 5 5 5h14c2.75 0 5-2.25 5-5v-14c0-2.76-2.25-5-5-5zm-11 19h-3v-10h3v10zm-1.5-11.28c-.96 0-1.5-.67-1.5-1.5s.54-1.5 1.5-1.5c.96 0 1.5.67 1.5 1.5s-.54 1.5-1.5 1.5zm13.5 11.28h-3v-5.5c0-1.45-.51-2.44-1.79-2.44-.97 0-1.55.65-1.8 1.28-.09.23-.11.56-.11.89v5.77h-3s.04-9.36 0-10.33h3v1.46c.4-.62 1.11-1.5 2.7-1.5 1.98 0 3.47 1.29 3.47 4.07v6.3z"/>
+      </svg>
+    </a>
+    <a href="https://instagram.com/ur.mohan_" target="_blank" style="margin: 0 10px; color: inherit;">
+      <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.333 3.608 1.308.975.975 1.246 2.242 1.308 3.608.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.062 1.366-.333 2.633-1.308 3.608-.975.975-2.242 1.246-3.608 1.308-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.366-.062-2.633-.333-3.608-1.308-.975-.975-1.246-2.242-1.308-3.608C2.175 15.647 2.163 15.267 2.163 12s.012-3.584.07-4.85c.062-1.366.333-2.633 1.308-3.608C4.516 2.496 5.783 2.225 7.149 2.163 8.415 2.105 8.796 2.163 12 2.163zm0-2.163C8.741 0 8.332.012 7.053.07c-1.675.075-3.255.648-4.472 1.865C.363 3.152-.21 4.732-.285 6.407-.343 7.686-.355 8.095-.355 12s.012 4.314.07 5.593c.075 1.675.648 3.255 1.865 4.472 1.217 1.217 2.797 1.79 4.472 1.865 1.279.058 1.688.07 5.593.07s4.314-.012 5.593-.07c1.675-.075 3.255-.648 4.472-1.865 1.217-1.217 1.79-2.797 1.865-4.472.058-1.279.07-1.688.07-5.593s-.012-4.314-.07-5.593c-.075-1.675-.648-3.255-1.865-4.472-1.217-1.217-2.797-1.79-4.472-1.865C15.314.012 14.905 0 12 0zM12 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zm0 10.162a3.999 3.999 0 1 1 0-7.998 3.999 3.999 0 0 1 0 7.998zm6.406-11.845a1.44 1.44 0 1 0 0 2.88 1.44 1.44 0 0 0 0-2.88z"/>
+      </svg>
+    </a>
+  </div>
+  <p style="margin-top: 10px;">© 2025 Mohan Singh Parmar | MONXCODE™ | Powered by Passion & Code 💡 | 📍 Rajsamand, India 🇮🇳</p>
 </footer>
-<footer style="
-  background: #000;
-  color: #ccc;
-  font-family: 'Poppins', sans-serif;
-  padding: 5px 8px;
-  text-align: center;
-  white-space: nowrap;
-  overflow: hidden;
-  font-size: clamp(8px, 1.5vw, 12px);
-  line-height: 1.1;
-  margin: 0;
-">
-  © 2025 <span style="color:#00ccff; font-weight:bold;">Mohan Singh Parmar</span> | MONXCODE™ | Powered by Passion & Code 💡 | 📍 Rajsamand, India 🇮🇳
-</footer>
- </body>
- </html>
+  </body>
+</html>
