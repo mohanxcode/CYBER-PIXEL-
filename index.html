@@ -9,6 +9,126 @@ This project is protected under copyright. Unauthorized copying will result in t
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MONXCODE - Web Developer</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+<style>
+  body.loading-mode {
+    overflow: hidden;
+  }
+
+  #welcomeOverlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: linear-gradient(to bottom right, #fdfcff, #e4e7ff);
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.6s ease;
+  }
+
+  #welcomeOverlay h1 {
+    font-size: 28px;
+    margin-bottom: 20px;
+    font-weight: 700;
+    color: #333;
+  }
+
+  #userName {
+    padding: 12px 18px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    outline: none;
+    min-width: 240px;
+  }
+
+  #enterBtn {
+    margin-top: 20px;
+    padding: 12px 32px;
+    border: none;
+    border-radius: 50px;
+    background: #4f46e5;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    display: none;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s ease;
+  }
+
+  #enterBtn:hover {
+    background: #3730a3;
+  }
+
+  .bubble {
+    position: absolute;
+    bottom: 0;
+    width: 12px;
+    height: 12px;
+    background: #4f46e5;
+    border-radius: 50%;
+    opacity: 0.8;
+    animation: floatUp 2s ease-out forwards;
+    pointer-events: none;
+  }
+
+  @keyframes floatUp {
+    0% {
+      transform: translateY(0) scale(1);
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(-150px) scale(0.6);
+      opacity: 0;
+    }
+  }
+</style>
+
+<script>
+  // Load Overlay
+  window.addEventListener("DOMContentLoaded", () => {
+    document.body.classList.add("loading-mode");
+    document.body.insertAdjacentHTML("afterbegin", `
+      <div id="welcomeOverlay">
+        <h1>Welcome to <span style="color:#4f46e5;">MONXCODE</span></h1>
+        <input type="text" id="userName" placeholder="Enter your name" oninput="checkName()"/>
+        <button id="enterBtn" onclick="triggerBubble()">Enter</button>
+      </div>
+    `);
+  });
+
+  // Name Check
+  function checkName() {
+    const name = document.getElementById("userName").value.trim();
+    document.getElementById("enterBtn").style.display = name ? "inline-block" : "none";
+  }
+
+  // Trigger Bubble & Hide
+  function triggerBubble() {
+    const btn = document.getElementById("enterBtn");
+    for (let i = 0; i < 25; i++) {
+      const bubble = document.createElement("div");
+      bubble.className = "bubble";
+      bubble.style.left = `${Math.random() * 100}%`;
+      bubble.style.width = bubble.style.height = `${Math.random() * 12 + 8}px`;
+      bubble.style.animationDuration = `${Math.random() * 1.5 + 1}s`;
+      btn.appendChild(bubble);
+      setTimeout(() => bubble.remove(), 2000);
+    }
+
+    btn.disabled = true;
+    setTimeout(() => {
+      const overlay = document.getElementById("welcomeOverlay");
+      overlay.style.opacity = "0";
+      overlay.style.pointerEvents = "none";
+      document.body.classList.remove("loading-mode");
+      setTimeout(() => overlay.remove(), 800);
+    }, 1200);
+  }
+</script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
     :root {
